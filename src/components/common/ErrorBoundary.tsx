@@ -17,6 +17,12 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
   }
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    // Silently ignore WebSocket errors - they're not critical
+    if (error.message.includes('WebSocket') || error.message.includes('websocket')) {
+      console.warn('WebSocket error caught and ignored:', error.message);
+      return { hasError: false };
+    }
+    
     // Determine error type
     let errorType = 'general';
     if (error.message.includes('GoTrueClient') || error.message.includes('Multiple GoTrueClient instances')) {
