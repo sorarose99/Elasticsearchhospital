@@ -1,0 +1,2064 @@
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --font-size: 14px;
+  --background: #ffffff;
+  --foreground: oklch(0.145 0 0);
+  --card: #ffffff;
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: #1e40af;
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.95 0.0058 264.53);
+  --secondary-foreground: #030213;
+  --muted: #ececf0;
+  --muted-foreground: #717182;
+  --accent: #e9ebef;
+  --accent-foreground: #030213;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --success: #16a34a;
+  --success-foreground: #ffffff;
+  --warning: #ea580c;
+  --warning-foreground: #ffffff;
+  --info: #0ea5e9;
+  --info-foreground: #ffffff;
+  --border: rgba(0, 0, 0, 0.1);
+  --input: transparent;
+  --input-background: #f8fafc;
+  --switch-background: #cbced4;
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --ring: oklch(0.708 0 0);
+  --chart-1: #1e40af;
+  --chart-2: #16a34a;
+  --chart-3: #ea580c;
+  --chart-4: #8b5cf6;
+  --chart-5: #dc2626;
+  --radius: 0.625rem;
+  --sidebar: linear-gradient(135deg, oklch(0.985 0 0) 0%, oklch(0.975 0.005 240) 100%);
+  --sidebar-solid: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: #1e40af;
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  --topbar: linear-gradient(90deg, oklch(0.985 0 0) 0%, oklch(0.975 0.005 240) 100%);
+  --topbar-solid: oklch(0.985 0 0);
+  
+  /* Medical theme specific variables */
+  --medical-primary: #1e40af;
+  --medical-secondary: #059669;
+  --medical-accent: #0ea5e9;
+  --medical-success: #16a34a;
+  --medical-warning: #ea580c;
+  --medical-error: #dc2626;
+  --medical-info: #0ea5e9;
+}
+
+.dark {
+  --background: oklch(0.125 0.005 240);
+  --foreground: oklch(0.95 0.005 240);
+  --card: oklch(0.16 0.01 240);
+  --card-foreground: oklch(0.95 0.005 240);
+  --popover: oklch(0.16 0.01 240);
+  --popover-foreground: oklch(0.95 0.005 240);
+  --primary: oklch(0.61 0.25 250);
+  --primary-foreground: oklch(0.98 0.005 240);
+  --secondary: oklch(0.24 0.015 240);
+  --secondary-foreground: oklch(0.9 0.005 240);
+  --muted: oklch(0.2 0.01 240);
+  --muted-foreground: oklch(0.65 0.01 240);
+  --accent: oklch(0.24 0.015 240);
+  --accent-foreground: oklch(0.9 0.005 240);
+  --destructive: oklch(0.62 0.25 15);
+  --destructive-foreground: oklch(0.98 0.005 240);
+  --success: oklch(0.55 0.2 145);
+  --success-foreground: oklch(0.98 0.005 240);
+  --warning: oklch(0.65 0.2 45);
+  --warning-foreground: oklch(0.1 0.01 240);
+  --info: oklch(0.6 0.2 210);
+  --info-foreground: oklch(0.98 0.005 240);
+  --border: oklch(0.28 0.015 240);
+  --input: oklch(0.2 0.01 240);
+  --input-background: oklch(0.18 0.01 240);
+  --switch-background: oklch(0.35 0.02 240);
+  --ring: oklch(0.5 0.02 240);
+  --font-weight-medium: 500;
+  --font-weight-normal: 400;
+  --chart-1: oklch(0.61 0.25 250);
+  --chart-2: oklch(0.55 0.2 145);
+  --chart-3: oklch(0.65 0.2 45);
+  --chart-4: oklch(0.65 0.25 285);
+  --chart-5: oklch(0.62 0.25 15);
+  --sidebar: linear-gradient(135deg, oklch(0.12 0.008 240) 0%, oklch(0.15 0.01 250) 100%);
+  --sidebar-solid: oklch(0.12 0.008 240);
+  --sidebar-foreground: oklch(0.92 0.005 240);
+  --sidebar-primary: oklch(0.61 0.25 250);
+  --sidebar-primary-foreground: oklch(0.98 0.005 240);
+  --sidebar-accent: oklch(0.22 0.01 240);
+  --sidebar-accent-foreground: oklch(0.88 0.005 240);
+  --sidebar-border: oklch(0.25 0.015 240);
+  --sidebar-ring: oklch(0.5 0.02 240);
+  --sidebar-gradient: linear-gradient(135deg, oklch(0.12 0.008 240) 0%, oklch(0.18 0.012 245) 100%);
+  --topbar: linear-gradient(90deg, oklch(0.14 0.008 240) 0%, oklch(0.16 0.01 250) 100%);
+  --topbar-solid: oklch(0.14 0.008 240);
+  
+  /* Medical theme specific dark colors */
+  --medical-primary: oklch(0.61 0.25 250);
+  --medical-secondary: oklch(0.55 0.2 145);
+  --medical-accent: oklch(0.6 0.2 210);
+  --medical-success: oklch(0.55 0.2 145);
+  --medical-warning: oklch(0.65 0.2 45);
+  --medical-error: oklch(0.62 0.25 15);
+  --medical-info: oklch(0.6 0.2 210);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-switch-background: var(--switch-background);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-solid: var(--sidebar-solid);
+  --color-sidebar-gradient: var(--sidebar-gradient);
+  --color-topbar: var(--topbar);
+  --color-topbar-solid: var(--topbar-solid);
+  
+  /* Medical theme colors */
+  --color-medical-primary: var(--medical-primary);
+  --color-medical-secondary: var(--medical-secondary);
+  --color-medical-accent: var(--medical-accent);
+  --color-medical-success: var(--medical-success);
+  --color-medical-warning: var(--medical-warning);
+  --color-medical-error: var(--medical-error);
+  --color-medical-info: var(--medical-info);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  /* Smooth theme transitions */
+  *, *::before, *::after {
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Prevent transition issues with dialogs and overlays */
+  [data-radix-portal] {
+    transition: none !important;
+  }
+
+  /* Fix for dialog overlay transitions */
+  [data-state="open"][data-slot="dialog-overlay"] {
+    animation: fadeIn 150ms ease-out;
+  }
+
+  [data-state="closed"][data-slot="dialog-overlay"] {
+    animation: fadeOut 150ms ease-in;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  /* RTL support */
+  [dir="rtl"] {
+    direction: rtl;
+  }
+
+  [dir="rtl"] .rtl\:space-x-reverse > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 1;
+  }
+
+  /* Dark mode scrollbar */
+  .dark ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .dark ::-webkit-scrollbar-track {
+    background: oklch(0.185 0 0);
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    background: oklch(0.385 0 0);
+    border-radius: 4px;
+  }
+
+  .dark ::-webkit-scrollbar-thumb:hover {
+    background: oklch(0.485 0 0);
+  }
+
+  /* Enhanced dark theme support for navigation with gradients */
+  .dark .bg-sidebar {
+    background: var(--sidebar) !important;
+  }
+
+  .dark .bg-sidebar-solid {
+    background-color: var(--sidebar-solid) !important;
+  }
+
+  .dark .bg-topbar {
+    background: var(--topbar) !important;
+  }
+
+  .dark .text-sidebar-foreground {
+    color: var(--sidebar-foreground) !important;
+  }
+
+  .dark .bg-sidebar-accent {
+    background-color: var(--sidebar-accent) !important;
+  }
+
+  .dark .text-sidebar-accent-foreground {
+    color: var(--sidebar-accent-foreground) !important;
+  }
+
+  .dark .border-sidebar-border {
+    border-color: var(--sidebar-border) !important;
+  }
+
+  .dark .bg-sidebar-primary {
+    background-color: var(--sidebar-primary) !important;
+  }
+
+  .dark .text-sidebar-primary-foreground {
+    color: var(--sidebar-primary-foreground) !important;
+  }
+
+  /* Dark theme button variants */
+  .dark .btn-ghost {
+    color: var(--sidebar-foreground);
+  }
+
+  .dark .btn-ghost:hover {
+    background-color: var(--sidebar-accent);
+    color: var(--sidebar-accent-foreground);
+  }
+
+  /* Ensure proper text contrast in dark mode */
+  .dark [data-slot="sidebar"] {
+    background: var(--sidebar);
+    border-color: var(--sidebar-border);
+  }
+
+  .dark [data-slot="topbar"] {
+    background: var(--topbar);
+    border-color: var(--sidebar-border);
+  }
+
+  .dark [data-slot="sidebar"] * {
+    color: var(--sidebar-foreground);
+  }
+
+  .dark [data-slot="sidebar"] .active {
+    background-color: var(--sidebar-accent);
+    color: var(--sidebar-accent-foreground);
+  }
+
+  /* Light mode scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f5f9;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+
+  /* Medical theme styles */
+  .medical {
+    --primary: var(--medical-primary);
+    --secondary: var(--medical-secondary);
+    --accent: var(--medical-accent);
+  }
+
+  /* Theme-specific utility classes */
+  .bg-success {
+    background-color: var(--color-success);
+    color: var(--color-success-foreground);
+  }
+
+  .bg-warning {
+    background-color: var(--color-warning);
+    color: var(--color-warning-foreground);
+  }
+
+  .bg-info {
+    background-color: var(--color-info);
+    color: var(--color-info-foreground);
+  }
+
+  .text-success {
+    color: var(--color-success);
+  }
+
+  .text-warning {
+    color: var(--color-warning);
+  }
+
+  .text-info {
+    color: var(--color-info);
+  }
+
+  .border-success {
+    border-color: var(--color-success);
+  }
+
+  .border-warning {
+    border-color: var(--color-warning);
+  }
+
+  .border-info {
+    border-color: var(--color-info);
+  }
+
+  /* Navigation-specific dark theme utilities */
+  .dark .navigation-item {
+    color: var(--sidebar-foreground);
+    background-color: transparent;
+  }
+
+  .dark .navigation-item:hover {
+    background-color: var(--sidebar-accent);
+    color: var(--sidebar-accent-foreground);
+  }
+
+  .dark .navigation-item.active {
+    background-color: var(--sidebar-accent);
+    color: var(--sidebar-accent-foreground);
+  }
+
+  /* Dark theme for dropdown menus in navigation */
+  .dark [data-radix-dropdown-menu-content] {
+    background-color: var(--popover);
+    border-color: var(--border);
+    color: var(--popover-foreground);
+  }
+
+  .dark [data-radix-dropdown-menu-item] {
+    color: var(--popover-foreground);
+  }
+
+  .dark [data-radix-dropdown-menu-item]:hover {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+  }
+
+  /* Dark theme for avatar components */
+  .dark .avatar-fallback {
+    background-color: var(--sidebar-primary);
+    color: var(--sidebar-primary-foreground);
+  }
+
+  /* Dark theme for badges in navigation */
+  .dark .badge-secondary {
+    background-color: var(--secondary);
+    color: var(--secondary-foreground);
+  }
+
+  /* Override any conflicting light theme styles in dark mode */
+  .dark .text-foreground {
+    color: var(--foreground) !important;
+  }
+
+  .dark .text-muted-foreground {
+    color: var(--muted-foreground) !important;
+  }
+
+  .dark .bg-background {
+    background-color: var(--background) !important;
+  }
+
+  .dark .bg-card {
+    background-color: var(--card) !important;
+  }
+
+  .dark .border-border {
+    border-color: var(--border) !important;
+  }
+
+  /* Force correct colors for navigation in dark mode */
+  .dark [data-slot="sidebar"] .navigation-item {
+    color: var(--sidebar-foreground) !important;
+  }
+
+  .dark [data-slot="sidebar"] .navigation-item:hover {
+    background-color: var(--sidebar-accent) !important;
+    color: var(--sidebar-accent-foreground) !important;
+  }
+
+  .dark [data-slot="sidebar"] .navigation-item.active {
+    background-color: var(--sidebar-accent) !important;
+    color: var(--sidebar-accent-foreground) !important;
+  }
+
+  /* Fix button variant colors in dark mode for navigation */
+  .dark [data-slot="sidebar"] .btn-ghost,
+  .dark [data-slot="sidebar"] [data-variant="ghost"] {
+    background-color: transparent !important;
+    color: var(--sidebar-foreground) !important;
+  }
+
+  .dark [data-slot="sidebar"] .btn-ghost:hover,
+  .dark [data-slot="sidebar"] [data-variant="ghost"]:hover {
+    background-color: var(--sidebar-accent) !important;
+    color: var(--sidebar-accent-foreground) !important;
+  }
+
+  .dark [data-slot="sidebar"] .btn-secondary,
+  .dark [data-slot="sidebar"] [data-variant="secondary"] {
+    background-color: var(--sidebar-accent) !important;
+    color: var(--sidebar-accent-foreground) !important;
+  }
+
+  /* Ensure proper text rendering in dark mode */
+  .dark * {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Comprehensive button fixes for navigation in dark mode */
+  .dark [data-slot="sidebar"] button,
+  .dark [data-slot="sidebar"] [role="button"] {
+    color: var(--sidebar-foreground) !important;
+  }
+
+  .dark [data-slot="sidebar"] button:hover,
+  .dark [data-slot="sidebar"] [role="button"]:hover {
+    background-color: var(--sidebar-accent) !important;
+    color: var(--sidebar-accent-foreground) !important;
+  }
+
+  /* Force navigation text colors for all text elements */
+  .dark [data-slot="sidebar"] h1,
+  .dark [data-slot="sidebar"] h2,
+  .dark [data-slot="sidebar"] h3,
+  .dark [data-slot="sidebar"] p,
+  .dark [data-slot="sidebar"] span,
+  .dark [data-slot="sidebar"] div {
+    color: var(--sidebar-foreground) !important;
+  }
+
+  /* Specific opacity-based text colors with fallback */
+  .dark [data-slot="sidebar"] .text-sidebar-foreground\/60,
+  .dark .text-sidebar-foreground\/60 {
+    color: oklch(0.55 0.005 240) !important;
+    opacity: 0.8;
+  }
+
+  .dark [data-slot="sidebar"] .text-sidebar-foreground\/40,
+  .dark .text-sidebar-foreground\/40 {
+    color: oklch(0.45 0.005 240) !important;
+    opacity: 0.7;
+  }
+
+  /* Navigation item states in dark mode */
+  .dark .navigation-item {
+    background-color: transparent !important;
+    color: var(--sidebar-foreground) !important;
+    border: none !important;
+  }
+
+  .dark .navigation-item:hover {
+    background-color: var(--sidebar-accent) !important;
+    color: var(--sidebar-accent-foreground) !important;
+  }
+
+  .dark .navigation-item.active {
+    background-color: var(--sidebar-accent) !important;
+    color: var(--sidebar-accent-foreground) !important;
+  }
+
+  /* Fix for specific navigation classes */
+  .dark .text-sidebar-foreground {
+    color: var(--sidebar-foreground) !important;
+  }
+
+  .dark .text-sidebar-accent-foreground {
+    color: var(--sidebar-accent-foreground) !important;
+  }
+
+  .dark .bg-sidebar-accent {
+    background-color: var(--sidebar-accent) !important;
+  }
+
+  .dark .bg-sidebar-primary {
+    background-color: var(--sidebar-primary) !important;
+  }
+
+  /* Override Tailwind utility classes in dark mode navigation */
+  .dark [data-slot="sidebar"] .text-sm,
+  .dark [data-slot="sidebar"] .text-xs {
+    color: inherit !important;
+  }
+
+  /* Ensure icons inherit proper colors */
+  .dark [data-slot="sidebar"] svg {
+    color: inherit !important;
+  }
+
+  /* Modern navigation button styles for dark mode */
+  .dark [data-slot="sidebar"] [class*="Button"] {
+    color: var(--sidebar-foreground) !important;
+  }
+
+  .dark [data-slot="sidebar"] [class*="Button"]:hover {
+    background-color: var(--sidebar-accent) !important;
+    color: var(--sidebar-accent-foreground) !important;
+  }
+
+  /* Fix any potential DOM nesting issues */
+  .safe-text-container {
+    display: block;
+  }
+
+  .safe-text-container p {
+    margin: 0;
+    display: inline;
+  }
+
+  .safe-text-container div {
+    display: block;
+  }
+
+  /* Prevent layout shift in containers */
+  .stable-container {
+    contain: layout style;
+  }
+
+  /* Enhanced animations and transitions */
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out forwards;
+  }
+
+  .animate-fade-out {
+    animation: fadeOut 0.3s ease-in forwards;
+  }
+
+  .animate-slide-in-up {
+    animation: slideInUp 0.3s ease-out forwards;
+  }
+
+  .animate-slide-in-down {
+    animation: slideInDown 0.3s ease-out forwards;
+  }
+
+  .animate-slide-in-left {
+    animation: slideInLeft 0.3s ease-out forwards;
+  }
+
+  .animate-slide-in-right {
+    animation: slideInRight 0.3s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.3s ease-out forwards;
+  }
+
+  .animate-bounce-in {
+    animation: bounceIn 0.5s ease-out forwards;
+  }
+
+  .animate-pulse-soft {
+    animation: pulseSoft 2s ease-in-out infinite;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  /* Keyframe definitions */
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideInLeft {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes bounceIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.3);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    70% {
+      transform: scale(0.9);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes pulseSoft {
+    0%, 100% {
+      opacity: 0.8;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.02);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+
+  @keyframes glow {
+    from {
+      box-shadow: 0 0 5px rgba(59, 130, 246, 0.2);
+    }
+    to {
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+    }
+  }
+
+  /* Enhanced hover effects */
+  .hover-lift {
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .dark .hover-lift:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .hover-scale {
+    transition: transform 0.2s ease-out;
+  }
+
+  .hover-scale:hover {
+    transform: scale(1.02);
+  }
+
+  .hover-glow {
+    transition: box-shadow 0.3s ease-out;
+  }
+
+  .hover-glow:hover {
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+  }
+
+  /* Loading and skeleton animations */
+  .skeleton {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    background-size: 200% 100%;
+    animation: skeletonLoading 1.5s infinite;
+  }
+
+  .dark .skeleton {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    background-size: 200% 100%;
+  }
+
+  @keyframes skeletonLoading {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  /* Staggered animations for lists */
+  .stagger-animation > * {
+    animation: slideInUp 0.3s ease-out forwards;
+    opacity: 0;
+  }
+
+  .stagger-animation > *:nth-child(1) { animation-delay: 0.1s; }
+  .stagger-animation > *:nth-child(2) { animation-delay: 0.2s; }
+  .stagger-animation > *:nth-child(3) { animation-delay: 0.3s; }
+  .stagger-animation > *:nth-child(4) { animation-delay: 0.4s; }
+  .stagger-animation > *:nth-child(5) { animation-delay: 0.5s; }
+  .stagger-animation > *:nth-child(6) { animation-delay: 0.6s; }
+  .stagger-animation > *:nth-child(7) { animation-delay: 0.7s; }
+  .stagger-animation > *:nth-child(8) { animation-delay: 0.8s; }
+
+  /* Button press animations */
+  .btn-press {
+    transition: transform 0.1s ease-out;
+  }
+
+  .btn-press:active {
+    transform: scale(0.95);
+  }
+
+  /* Medical theme specific animations */
+  .medical-pulse {
+    animation: medicalPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes medicalPulse {
+    0%, 100% {
+      background-color: var(--medical-primary);
+      transform: scale(1);
+    }
+    50% {
+      background-color: var(--medical-accent);
+      transform: scale(1.05);
+    }
+  }
+
+  /* Notification animations */
+  .notification-slide-in {
+    animation: notificationSlideIn 0.3s ease-out forwards;
+  }
+
+  .notification-slide-out {
+    animation: notificationSlideOut 0.3s ease-in forwards;
+  }
+
+  @keyframes notificationSlideIn {
+    from {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes notificationSlideOut {
+    from {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+  }
+
+  /* Progress bar animations */
+  .progress-bar {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: progressShimmer 2s infinite;
+  }
+
+  @keyframes progressShimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  /* Enhanced focus states with animations */
+  .focus-ring {
+    transition: box-shadow 0.2s ease-out, border-color 0.2s ease-out;
+  }
+
+  .focus-ring:focus-visible {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    animation: focusPulse 0.6s ease-out;
+  }
+
+  @keyframes focusPulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+    }
+    70% {
+      box-shadow: 0 0 0 6px rgba(59, 130, 246, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+    }
+  }
+
+  /* Card animation improvements */
+  .card-animate {
+    transition: all 0.3s ease-out;
+  }
+
+  .card-animate:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .dark .card-animate:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Tab animation enhancements */
+  .tab-content-enter {
+    animation: tabContentEnter 0.3s ease-out forwards;
+  }
+
+  @keyframes tabContentEnter {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Modal and dialog enhancements */
+  .modal-overlay {
+    animation: modalOverlayShow 0.2s ease-out forwards;
+  }
+
+  .modal-content {
+    animation: modalContentShow 0.3s ease-out forwards;
+  }
+
+  @keyframes modalOverlayShow {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes modalContentShow {
+    from {
+      opacity: 0;
+      transform: scale(0.9) translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  /* Success and error state animations */
+  .success-bounce {
+    animation: successBounce 0.6s ease-out forwards;
+  }
+
+  .error-shake {
+    animation: errorShake 0.5s ease-out forwards;
+  }
+
+  @keyframes successBounce {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes errorShake {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+      transform: translateX(-5px);
+    }
+    20%, 40%, 60%, 80% {
+      transform: translateX(5px);
+    }
+  }
+
+  /* Loading spinner enhancements */
+  .spinner-medical {
+    animation: spinnerMedical 1s linear infinite;
+  }
+
+  @keyframes spinnerMedical {
+    0% {
+      transform: rotate(0deg);
+      border-color: var(--medical-primary) transparent transparent transparent;
+    }
+    25% {
+      border-color: transparent var(--medical-secondary) transparent transparent;
+    }
+    50% {
+      border-color: transparent transparent var(--medical-accent) transparent;
+    }
+    75% {
+      border-color: transparent transparent transparent var(--medical-info);
+    }
+    100% {
+      transform: rotate(360deg);
+      border-color: var(--medical-primary) transparent transparent transparent;
+    }
+  }
+
+  /* Reduced motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in,
+    .animate-fade-out,
+    .animate-slide-in-up,
+    .animate-slide-in-down,
+    .animate-slide-in-left,
+    .animate-slide-in-right,
+    .animate-scale-in,
+    .animate-bounce-in,
+    .animate-pulse-soft,
+    .animate-float,
+    .animate-glow,
+    .stagger-animation > *,
+    .medical-pulse,
+    .notification-slide-in,
+    .notification-slide-out,
+    .progress-bar::after,
+    .tab-content-enter,
+    .modal-overlay,
+    .modal-content,
+    .success-bounce,
+    .error-shake,
+    .spinner-medical {
+      animation: none !important;
+      transition: none !important;
+    }
+
+    .hover-lift:hover,
+    .hover-scale:hover,
+    .card-animate:hover {
+      transform: none !important;
+    }
+  }
+
+  /* Avatar component fixes for dark mode in sidebar */
+  .dark [data-slot="sidebar"] [class*="Avatar"] {
+    background-color: var(--sidebar-primary) !important;
+    color: var(--sidebar-primary-foreground) !important;
+  }
+
+  /* Badge component fixes for dark mode in sidebar */
+  .dark [data-slot="sidebar"] [class*="Badge"] {
+    background-color: var(--sidebar-accent) !important;
+    color: var(--sidebar-accent-foreground) !important;
+  }
+
+  /* Comprehensive class-based fixes for navigation */
+  .dark [data-slot="sidebar"] .flex,
+  .dark [data-slot="sidebar"] .items-center {
+    color: inherit !important;
+  }
+
+  /* Communication Center specific animations and styles */
+  .message-slide-in {
+    animation: messageSlideIn 0.3s ease-out forwards;
+  }
+
+  .message-slide-out {
+    animation: messageSlideOut 0.3s ease-in forwards;
+  }
+
+  .typing-indicator {
+    animation: typingIndicator 1.5s ease-in-out infinite;
+  }
+
+  .call-pulse {
+    animation: callPulse 2s ease-in-out infinite;
+  }
+
+  .notification-bounce {
+    animation: notificationBounce 0.6s ease-out forwards;
+  }
+
+  @keyframes messageSlideIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes messageSlideOut {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+  }
+
+  @keyframes typingIndicator {
+    0%, 60%, 100% {
+      transform: translateY(0);
+    }
+    30% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes callPulse {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+    }
+    50% {
+      transform: scale(1.05);
+      box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+    }
+  }
+
+  @keyframes notificationBounce {
+    0% {
+      opacity: 0;
+      transform: translateX(100%) scale(0.3);
+    }
+    50% {
+      transform: translateX(-10%) scale(1.05);
+    }
+    70% {
+      transform: translateX(5%) scale(0.9);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+  }
+
+  /* Voice recording animation */
+  .recording-pulse {
+    animation: recordingPulse 1s ease-in-out infinite;
+  }
+
+  @keyframes recordingPulse {
+    0%, 100% {
+      background-color: rgb(239, 68, 68);
+      transform: scale(1);
+    }
+    50% {
+      background-color: rgb(220, 38, 38);
+      transform: scale(1.1);
+    }
+  }
+
+  /* Message status indicators */
+  .message-status {
+    transition: all 0.2s ease-out;
+  }
+
+  .message-status.sending {
+    animation: messageSending 1.5s ease-in-out infinite;
+  }
+
+  @keyframes messageSending {
+    0%, 100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  /* Call notification styles */
+  .incoming-call {
+    animation: incomingCall 2s ease-in-out infinite;
+  }
+
+  @keyframes incomingCall {
+    0%, 100% {
+      background: linear-gradient(135deg, rgb(34, 197, 94), rgb(21, 128, 61));
+      transform: scale(1);
+    }
+    50% {
+      background: linear-gradient(135deg, rgb(21, 128, 61), rgb(34, 197, 94));
+      transform: scale(1.02);
+    }
+  }
+
+  /* Communication status indicators */
+  .status-online {
+    background: linear-gradient(135deg, rgb(34, 197, 94), rgb(22, 163, 74));
+    animation: statusOnline 3s ease-in-out infinite;
+  }
+
+  .status-away {
+    background: linear-gradient(135deg, rgb(251, 191, 36), rgb(245, 158, 11));
+    animation: statusAway 3s ease-in-out infinite;
+  }
+
+  .status-busy {
+    background: linear-gradient(135deg, rgb(249, 115, 22), rgb(234, 88, 12));
+    animation: statusBusy 3s ease-in-out infinite;
+  }
+
+  @keyframes statusOnline {
+    0%, 100% {
+      box-shadow: 0 0 5px rgba(34, 197, 94, 0.5);
+    }
+    50% {
+      box-shadow: 0 0 15px rgba(34, 197, 94, 0.8);
+    }
+  }
+
+  @keyframes statusAway {
+    0%, 100% {
+      box-shadow: 0 0 5px rgba(251, 191, 36, 0.5);
+    }
+    50% {
+      box-shadow: 0 0 15px rgba(251, 191, 36, 0.8);
+    }
+  }
+
+  @keyframes statusBusy {
+    0%, 100% {
+      box-shadow: 0 0 5px rgba(249, 115, 22, 0.5);
+    }
+    50% {
+      box-shadow: 0 0 15px rgba(249, 115, 22, 0.8);
+    }
+  }
+
+  /* Enhanced scroll behavior for communication */
+  .communication-scroll {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+  }
+
+  .communication-scroll::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .communication-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .communication-scroll::-webkit-scrollbar-thumb {
+    background: rgba(156, 163, 175, 0.5);
+    border-radius: 3px;
+  }
+
+  .communication-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(156, 163, 175, 0.8);
+  }
+
+  .dark .communication-scroll::-webkit-scrollbar-thumb {
+    background: rgba(75, 85, 99, 0.5);
+  }
+
+  .dark .communication-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(75, 85, 99, 0.8);
+  }
+
+  /* Fix for nested navigation elements */
+  .dark [data-slot="sidebar"] [class*="text-"] {
+    color: var(--sidebar-foreground) !important;
+  }
+
+  .dark [data-slot="sidebar"] [class*="hover:text-"] {
+    color: var(--sidebar-foreground) !important;
+  }
+
+  .dark [data-slot="sidebar"] [class*="hover:text-"]:hover {
+    color: var(--sidebar-accent-foreground) !important;
+  }
+
+  /* Utility class overrides for dark navigation */
+  .dark [data-slot="sidebar"] .truncate {
+    color: inherit !important;
+  }
+
+  .dark [data-slot="sidebar"] .font-medium {
+    color: inherit !important;
+  }
+
+  .dark [data-slot="sidebar"] .font-normal {
+    color: inherit !important;
+  }
+
+  /* Additional safety for text colors in navigation */
+  .dark [data-slot="sidebar"] *[class*="text-"] {
+    color: var(--sidebar-foreground) !important;
+  }
+
+  /* Force proper inheritance in nested elements */
+  .dark [data-slot="sidebar"] > * > * {
+    color: inherit;
+  }
+
+  /* Global dark mode improvements for navigation */
+  .dark {
+    /* Ensure sidebar colors are properly applied */
+    --sidebar-text: var(--sidebar-foreground);
+    --sidebar-hover-bg: var(--sidebar-accent);
+    --sidebar-hover-text: var(--sidebar-accent-foreground);
+  }
+
+  /* Navigation specific improvements */
+  .dark [data-slot="sidebar"] {
+    /* Force all text to use sidebar colors */
+    color: var(--sidebar-foreground);
+  }
+
+  .dark [data-slot="sidebar"] * {
+    /* Inherit colors from parent */
+    color: inherit;
+  }
+
+  /* Exception for elements that need specific colors */
+  .dark [data-slot="sidebar"] .bg-sidebar-primary * {
+    color: var(--sidebar-primary-foreground) !important;
+  }
+
+  .dark [data-slot="sidebar"] .bg-sidebar-accent * {
+    color: var(--sidebar-accent-foreground) !important;
+  }
+
+  /* Fix hover states */
+  .dark [data-slot="sidebar"] *:hover {
+    color: inherit;
+  }
+
+  /* Button component override in dark sidebar */
+  .dark [data-slot="sidebar"] button,
+  .dark [data-slot="sidebar"] [type="button"] {
+    color: var(--sidebar-foreground);
+    background-color: transparent;
+  }
+
+  .dark [data-slot="sidebar"] button:hover,
+  .dark [data-slot="sidebar"] [type="button"]:hover {
+    background-color: var(--sidebar-accent);
+    color: var(--sidebar-accent-foreground);
+  }
+
+  /* Active states */
+  .dark [data-slot="sidebar"] button.active,
+  .dark [data-slot="sidebar"] [type="button"].active {
+    background-color: var(--sidebar-accent);
+    color: var(--sidebar-accent-foreground);
+  }
+
+  /* Final overrides to ensure consistency */
+  .dark [data-slot="sidebar"] .navigation-item * {
+    color: inherit !important;
+  }
+
+  .dark [data-slot="sidebar"] .navigation-item:hover * {
+    color: inherit !important;
+  }
+
+  .dark [data-slot="sidebar"] .navigation-item.active * {
+    color: inherit !important;
+  }
+
+  /* Remove any conflicting styles */
+  .dark [data-slot="sidebar"] [class*="text-muted"],
+  .dark [data-slot="sidebar"] [class*="text-gray"] {
+    color: var(--sidebar-foreground) !important;
+    opacity: 0.7;
+  }
+
+  /* Ensure proper contrast for readability */
+  .dark [data-slot="sidebar"] {
+    --tw-text-opacity: 1;
+  }
+
+  /* Fix for any remaining text color issues */
+  .dark [data-slot="sidebar"] [data-radix-collection-item] {
+    color: var(--sidebar-foreground) !important;
+  }
+
+  /* Specific fix for logout button and text in dark mode */
+  .dark [data-slot="sidebar"] button span,
+  .dark [data-slot="sidebar"] [type="button"] span {
+    color: inherit !important;
+  }
+
+  /* Force text visibility in dark sidebar buttons */
+  .dark [data-slot="sidebar"] button *,
+  .dark [data-slot="sidebar"] [type="button"] * {
+    color: inherit !important;
+  }
+
+  /* Logout button specific fixes */
+  .dark [data-slot="sidebar"] button:has(svg) {
+    color: var(--sidebar-foreground) !important;
+  }
+
+  .dark [data-slot="sidebar"] button:has(svg):hover {
+    color: var(--sidebar-accent-foreground) !important;
+  }
+
+  .dark [data-slot="sidebar"] button:has(svg) * {
+    color: inherit !important;
+  }
+
+  /* Additional safety for button content */
+  .dark [data-slot="sidebar"] [role="button"] span,
+  .dark [data-slot="sidebar"] button > span {
+    color: var(--sidebar-foreground) !important;
+  }
+
+  .dark [data-slot="sidebar"] [role="button"]:hover span,
+  .dark [data-slot="sidebar"] button:hover > span {
+    color: var(--sidebar-accent-foreground) !important;
+  }
+
+  /* Force all child elements to inherit proper colors */
+  .dark [data-slot="sidebar"] button > *,
+  .dark [data-slot="sidebar"] [type="button"] > * {
+    color: inherit !important;
+  }
+
+  /* Comprehensive text inheritance fix for sidebar in dark mode */
+  .dark [data-slot="sidebar"] .text-sm,
+  .dark [data-slot="sidebar"] .text-xs,
+  .dark [data-slot="sidebar"] .text-base {
+    color: inherit !important;
+  }
+
+  /* Fix for nested text elements in buttons */
+  .dark [data-slot="sidebar"] button .ml-2,
+  .dark [data-slot="sidebar"] [type="button"] .ml-2 {
+    color: inherit !important;
+  }
+
+  /* Override any utility classes that might conflict */
+  .dark [data-slot="sidebar"] [class*="ml-"],
+  .dark [data-slot="sidebar"] [class*="mr-"],
+  .dark [data-slot="sidebar"] [class*="space-x-"] {
+    color: inherit !important;
+  }
+
+  /* Ensure Ghost button variant works correctly in dark mode */
+  .dark [data-slot="sidebar"] [data-variant="ghost"] {
+    color: var(--sidebar-foreground) !important;
+    background-color: transparent !important;
+  }
+
+  .dark [data-slot="sidebar"] [data-variant="ghost"]:hover {
+    color: var(--sidebar-accent-foreground) !important;
+    background-color: var(--sidebar-accent) !important;
+  }
+
+  .dark [data-slot="sidebar"] [data-variant="ghost"] * {
+    color: inherit !important;
+  }
+
+  /* Specific class-based overrides */
+  .dark [data-slot="sidebar"] .justify-start,
+  .dark [data-slot="sidebar"] .justify-center {
+    color: inherit !important;
+  }
+
+  .dark [data-slot="sidebar"] .w-full {
+    color: inherit !important;
+  }
+
+  /* Final catch-all for any missed elements */
+  .dark [data-slot="sidebar"] * {
+    --tw-text-opacity: 1 !important;
+  }
+
+  /* Prevent any CSS reset or normalize from affecting text colors */
+  .dark [data-slot="sidebar"] a,
+  .dark [data-slot="sidebar"] span,
+  .dark [data-slot="sidebar"] div,
+  .dark [data-slot="sidebar"] p {
+    color: inherit !important;
+  }
+
+  /* Ensure button states are consistent */
+  .dark [data-slot="sidebar"] button:focus {
+    color: var(--sidebar-foreground) !important;
+    background-color: var(--sidebar-accent) !important;
+  }
+
+  .dark [data-slot="sidebar"] button:focus * {
+    color: var(--sidebar-accent-foreground) !important;
+  }
+
+  /* Special handling for icon + text combinations */
+  .dark [data-slot="sidebar"] button:has(svg + span) {
+    color: var(--sidebar-foreground) !important;
+  }
+
+  .dark [data-slot="sidebar"] button:has(svg + span):hover {
+    color: var(--sidebar-accent-foreground) !important;
+  }
+
+  .dark [data-slot="sidebar"] button:has(svg + span) svg,
+  .dark [data-slot="sidebar"] button:has(svg + span) span {
+    color: inherit !important;
+  }
+
+  /* Footer specific fixes (where logout button is located) */
+  .dark [data-slot="sidebar"] .border-t button {
+    color: var(--sidebar-foreground) !important;
+  }
+
+  .dark [data-slot="sidebar"] .border-t button:hover {
+    color: var(--sidebar-accent-foreground) !important;
+  }
+
+  .dark [data-slot="sidebar"] .border-t button * {
+    color: inherit !important;
+  }
+
+  /* Very specific fix for logout button text */
+  .dark [data-slot="sidebar"] button:has(svg[data-lucide="log-out"]) {
+    color: var(--sidebar-foreground) !important;
+  }
+
+  .dark [data-slot="sidebar"] button:has(svg[data-lucide="log-out"]):hover {
+    color: var(--sidebar-accent-foreground) !important;
+    background-color: var(--sidebar-accent) !important;
+  }
+
+  .dark [data-slot="sidebar"] button:has(svg[data-lucide="log-out"]) span {
+    color: var(--sidebar-foreground) !important;
+  }
+
+  .dark [data-slot="sidebar"] button:has(svg[data-lucide="log-out"]):hover span {
+    color: var(--sidebar-accent-foreground) !important;
+  }
+
+  /* Fallback for any button in footer area */
+  .dark [data-slot="sidebar"] .space-y-2 button {
+    color: var(--sidebar-foreground) !important;
+    background-color: transparent !important;
+  }
+
+  .dark [data-slot="sidebar"] .space-y-2 button:hover {
+    color: var(--sidebar-accent-foreground) !important;
+    background-color: var(--sidebar-accent) !important;
+  }
+
+  .dark [data-slot="sidebar"] .space-y-2 button * {
+    color: inherit !important;
+  }
+
+  /* Ultra-specific targeting for the logout text span */
+  .dark [data-slot="sidebar"] .p-4.border-t span {
+    color: var(--sidebar-foreground) !important;
+  }
+
+  .dark [data-slot="sidebar"] .p-4.border-t button:hover span {
+    color: var(--sidebar-accent-foreground) !important;
+  }
+
+  /* Override any potential conflicting text-white or similar classes */
+  .dark [data-slot="sidebar"] .text-white {
+    color: var(--sidebar-foreground) !important;
+  }
+
+  .dark [data-slot="sidebar"] button:hover .text-white {
+    color: var(--sidebar-accent-foreground) !important;
+  }
+
+  /* Nuclear option: force all text elements in sidebar to use correct colors */
+  .dark [data-slot="sidebar"] {
+    color: var(--sidebar-foreground) !important;
+  }
+
+  .dark [data-slot="sidebar"] button,
+  .dark [data-slot="sidebar"] [type="button"],
+  .dark [data-slot="sidebar"] a,
+  .dark [data-slot="sidebar"] span,
+  .dark [data-slot="sidebar"] div,
+  .dark [data-slot="sidebar"] p,
+  .dark [data-slot="sidebar"] h1,
+  .dark [data-slot="sidebar"] h2,
+  .dark [data-slot="sidebar"] h3 {
+    color: inherit !important;
+  }
+
+  /* Ensure hover states work correctly */
+  .dark [data-slot="sidebar"] button:hover,
+  .dark [data-slot="sidebar"] [type="button"]:hover {
+    background-color: var(--sidebar-accent) !important;
+    color: var(--sidebar-accent-foreground) !important;
+  }
+
+  .dark [data-slot="sidebar"] button:hover *,
+  .dark [data-slot="sidebar"] [type="button"]:hover * {
+    color: inherit !important;
+  }
+
+  /* Specific override for any remaining white text issues */
+  .dark [data-slot="sidebar"] [style*="color: white"],
+  .dark [data-slot="sidebar"] [style*="color: #fff"],
+  .dark [data-slot="sidebar"] [style*="color: #ffffff"] {
+    color: var(--sidebar-foreground) !important;
+  }
+
+  /* Force proper text color using the highest CSS specificity */
+  .dark [data-slot="sidebar"] button[class*="text-sidebar-foreground"] span {
+    color: var(--sidebar-foreground) !important;
+  }
+
+  .dark [data-slot="sidebar"] button[class*="hover:text-sidebar-accent-foreground"]:hover span {
+    color: var(--sidebar-accent-foreground) !important;
+  }
+
+  /* TopBar dark theme improvements */
+  .dark [data-slot="topbar"] {
+    background: var(--topbar);
+    color: var(--sidebar-foreground);
+  }
+
+  .dark [data-slot="topbar"] * {
+    color: inherit !important;
+  }
+
+  .dark [data-slot="topbar"] button {
+    color: var(--sidebar-foreground) !important;
+    background-color: transparent !important;
+  }
+
+  .dark [data-slot="topbar"] button:hover {
+    background-color: var(--sidebar-accent) !important;
+    color: var(--sidebar-accent-foreground) !important;
+  }
+
+  .dark [data-slot="topbar"] button * {
+    color: inherit !important;
+  }
+
+  /* MainLayout dark theme improvements */
+  .dark [data-slot="main-layout"] {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+
+  /* Enhanced gradient backgrounds for better visual appeal */
+  .dark .gradient-sidebar {
+    background: var(--sidebar-gradient);
+  }
+
+  .gradient-sidebar {
+    background: var(--sidebar-gradient);
+  }
+
+  /* Card and dialog improvements in dark mode */
+  .dark .bg-card {
+    background: linear-gradient(135deg, var(--card) 0%, oklch(from var(--card) calc(l + 0.02) c h) 100%);
+  }
+
+  .dark .bg-popover {
+    background: linear-gradient(135deg, var(--popover) 0%, oklch(from var(--popover) calc(l + 0.02) c h) 100%);
+  }
+
+  /* Enhanced button gradients */
+  .dark .btn-primary {
+    background: linear-gradient(135deg, var(--primary) 0%, oklch(from var(--primary) calc(l + 0.05) c h) 100%);
+  }
+
+  .dark .btn-secondary {
+    background: linear-gradient(135deg, var(--secondary) 0%, oklch(from var(--secondary) calc(l + 0.05) c h) 100%);
+  }
+
+  /* Improved contrast utilities */
+  .contrast-enhanced {
+    filter: contrast(1.1) brightness(1.02);
+  }
+
+  .dark .contrast-enhanced {
+    filter: contrast(1.05) brightness(0.98);
+  }
+
+  /* Glass effect for modern UI */
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .dark .glass-effect {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Improved focus indicators */
+  .dark *:focus-visible {
+    outline: 2px solid var(--sidebar-primary);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Enhanced scrollbar styling */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(229, 231, 235, 0.3);
+    border-radius: 3px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.6) 0%, rgba(34, 197, 94, 0.6) 100%);
+    border-radius: 3px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.8) 0%, rgba(34, 197, 94, 0.8) 100%);
+  }
+
+  .dark .custom-scrollbar {
+    scrollbar-color: rgba(75, 85, 99, 0.5) transparent;
+  }
+
+  .dark .custom-scrollbar::-webkit-scrollbar-track {
+    background: var(--sidebar-solid);
+    border-radius: 3px;
+  }
+
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--sidebar-accent) 0%, oklch(from var(--sidebar-accent) calc(l + 0.1) c h) 100%);
+    border-radius: 3px;
+  }
+
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--sidebar-primary);
+  }
+
+  /* Comprehensive component color fixes for dark mode */
+  
+  /* Button component improvements */
+  .dark .btn-primary {
+    background: linear-gradient(135deg, var(--primary) 0%, oklch(from var(--primary) calc(l + 0.05) c h) 100%);
+    color: var(--primary-foreground);
+    border: none;
+  }
+
+  .dark .btn-primary:hover {
+    background: linear-gradient(135deg, oklch(from var(--primary) calc(l + 0.1) c h) 0%, oklch(from var(--primary) calc(l + 0.15) c h) 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .dark .btn-secondary {
+    background: linear-gradient(135deg, var(--secondary) 0%, oklch(from var(--secondary) calc(l + 0.05) c h) 100%);
+    color: var(--secondary-foreground);
+  }
+
+  .dark .btn-secondary:hover {
+    background: linear-gradient(135deg, oklch(from var(--secondary) calc(l + 0.1) c h) 0%, oklch(from var(--secondary) calc(l + 0.15) c h) 100%);
+  }
+
+  /* Card component improvements */
+  .dark .card-enhanced {
+    background: linear-gradient(135deg, var(--card) 0%, oklch(from var(--card) calc(l + 0.02) c h) 100%);
+    border: 1px solid oklch(from var(--border) calc(l + 0.05) c h);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .dark .card-enhanced:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Dialog and modal improvements */
+  .dark [data-radix-dialog-content] {
+    background: linear-gradient(135deg, var(--popover) 0%, oklch(from var(--popover) calc(l + 0.02) c h) 100%);
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+
+  .dark [data-radix-dialog-overlay] {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+  }
+
+  /* Input and form improvements */
+  .dark input,
+  .dark textarea,
+  .dark select {
+    background: var(--input-background);
+    border: 1px solid var(--border);
+    color: var(--foreground);
+  }
+
+  .dark input:focus,
+  .dark textarea:focus,
+  .dark select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(var(--primary), 0.2);
+  }
+
+  /* Table improvements */
+  .dark .table-enhanced {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .dark .table-enhanced thead {
+    background: linear-gradient(135deg, var(--secondary) 0%, oklch(from var(--secondary) calc(l + 0.05) c h) 100%);
+  }
+
+  .dark .table-enhanced tbody tr:nth-child(even) {
+    background: oklch(from var(--card) calc(l + 0.02) c h);
+  }
+
+  .dark .table-enhanced tbody tr:hover {
+    background: var(--accent);
+  }
+
+  /* Badge improvements */
+  .dark .badge-success {
+    background: linear-gradient(135deg, var(--success) 0%, oklch(from var(--success) calc(l + 0.1) c h) 100%);
+    color: var(--success-foreground);
+  }
+
+  .dark .badge-warning {
+    background: linear-gradient(135deg, var(--warning) 0%, oklch(from var(--warning) calc(l + 0.1) c h) 100%);
+    color: var(--warning-foreground);
+  }
+
+  .dark .badge-error {
+    background: linear-gradient(135deg, var(--destructive) 0%, oklch(from var(--destructive) calc(l + 0.1) c h) 100%);
+    color: var(--destructive-foreground);
+  }
+
+  /* Navigation breadcrumbs */
+  .dark [data-slot="breadcrumbs"] {
+    color: var(--foreground);
+  }
+
+  .dark [data-slot="breadcrumbs"] a {
+    color: var(--primary);
+    text-decoration: none;
+  }
+
+  .dark [data-slot="breadcrumbs"] a:hover {
+    color: oklch(from var(--primary) calc(l + 0.1) c h);
+    text-decoration: underline;
+  }
+
+  /* Quick actions panel */
+  .dark [data-slot="quick-actions"] {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+
+  .dark [data-slot="quick-actions"] button {
+    background: transparent;
+    color: var(--foreground);
+    border: 1px solid var(--border);
+  }
+
+  .dark [data-slot="quick-actions"] button:hover {
+    background: var(--accent);
+    color: var(--accent-foreground);
+    border-color: var(--primary);
+  }
+
+  /* Notification improvements */
+  .dark .notification-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--primary);
+  }
+
+  .dark .notification-urgent {
+    border-left-color: var(--destructive);
+    background: oklch(from var(--destructive) calc(l + 0.05) c h / 0.1);
+  }
+
+  .dark .notification-info {
+    border-left-color: var(--info);
+    background: oklch(from var(--info) calc(l + 0.05) c h / 0.1);
+  }
+
+  /* Search improvements */
+  .dark [data-slot="global-search"] {
+    background: var(--popover);
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .dark [data-slot="global-search"] input {
+    background: var(--input-background);
+    border: 1px solid var(--border);
+    color: var(--foreground);
+  }
+
+  .dark [data-slot="global-search"] .search-result {
+    color: var(--foreground);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .dark [data-slot="global-search"] .search-result:hover {
+    background: var(--accent);
+    color: var(--accent-foreground);
+  }
+
+  /* Avatar improvements */
+  .dark .avatar-enhanced {
+    background: linear-gradient(135deg, var(--sidebar-primary) 0%, oklch(from var(--sidebar-primary) calc(l + 0.1) c h) 100%);
+    color: var(--sidebar-primary-foreground);
+    border: 2px solid oklch(from var(--sidebar-primary) calc(l + 0.2) c h);
+  }
+
+  /* Status indicators */
+  .dark .status-online {
+    color: var(--success);
+    background: oklch(from var(--success) calc(l + 0.1) c h / 0.2);
+  }
+
+  .dark .status-offline {
+    color: var(--muted-foreground);
+    background: oklch(from var(--muted) calc(l + 0.1) c h / 0.2);
+  }
+
+  .dark .status-busy {
+    color: var(--warning);
+    background: oklch(from var(--warning) calc(l + 0.1) c h / 0.2);
+  }
+
+  /* Enhanced gradient text */
+  .dark .gradient-text {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--info) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Medical theme specific improvements */
+  .dark.medical {
+    --primary: var(--medical-primary);
+    --secondary: var(--medical-secondary);
+    --accent: var(--medical-accent);
+    --success: var(--medical-success);
+    --warning: var(--medical-warning);
+    --destructive: var(--medical-error);
+    --info: var(--medical-info);
+  }
+
+  /* Enhanced accessibility features */
+  .dark .high-contrast {
+    filter: contrast(1.2) brightness(1.1);
+  }
+
+  .dark .reduced-motion {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  /* Print styles for dark mode */
+  @media print {
+    .dark * {
+      background: white !important;
+      color: black !important;
+      box-shadow: none !important;
+    }
+  }
+}
+
+/**
+ * Base typography. This is not applied to elements which have an ancestor with a Tailwind text class.
+ */
+@layer base {
+  :where(:not(:has([class*=" text-"]), :not(:has([class^="text-"])))) {
+    h1 {
+      font-size: var(--text-2xl);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h2 {
+      font-size: var(--text-xl);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h3 {
+      font-size: var(--text-lg);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    h4 {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    p {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-normal);
+      line-height: 1.5;
+    }
+
+    label {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    button {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-medium);
+      line-height: 1.5;
+    }
+
+    input {
+      font-size: var(--text-base);
+      font-weight: var(--font-weight-normal);
+      line-height: 1.5;
+    }
+  }
+}
+
+html {
+  font-size: var(--font-size);
+}

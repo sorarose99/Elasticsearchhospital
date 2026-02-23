@@ -1,0 +1,324 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ==================== HELPER FUNCTIONS ====================
+    
+    // Check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Get user data from users collection
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+    
+    // Check if user has specific role
+    function hasRole(role) {
+      return isAuthenticated() && getUserData().role == role;
+    }
+    
+    // Check if user is admin
+    function isAdmin() {
+      return hasRole('admin');
+    }
+    
+    // Check if user is doctor
+    function isDoctor() {
+      return hasRole('doctor');
+    }
+    
+    // Check if user is nurse
+    function isNurse() {
+      return hasRole('nurse');
+    }
+    
+    // Check if user is receptionist
+    function isReceptionist() {
+      return hasRole('receptionist');
+    }
+    
+    // Check if user is pharmacist
+    function isPharmacist() {
+      return hasRole('pharmacist');
+    }
+    
+    // Check if user is lab technician
+    function isLabTech() {
+      return hasRole('lab_technician');
+    }
+    
+    // Check if user is radiologist
+    function isRadiologist() {
+      return hasRole('radiologist');
+    }
+    
+    // Check if user is billing staff
+    function isBilling() {
+      return hasRole('billing');
+    }
+    
+    // Check if user is active
+    function isActiveUser() {
+      return isAuthenticated() && getUserData().isActive == true;
+    }
+    
+    // Validate email format
+    function isValidEmail(email) {
+      return email.matches('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$');
+    }
+    
+    // Validate phone format
+    function isValidPhone(phone) {
+      return phone.matches('^\\+?[0-9]{10,15}$');
+    }
+    
+    // ==================== USERS COLLECTION ====================
+    
+    match /users/{userId} {
+      // Anyone authenticated can read their own profile
+      allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      
+      // Only admins can create users
+      allow create: if isAdmin() && 
+        request.resource.data.keys().hasAll(['email', 'role', 'isActive']) &&
+        isValidEmail(request.resource.data.email);
+      
+      // Users can update their own profile (limited fields)
+      // Admins can update any profile
+      allow update: if isAuthenticated() && (
+        (request.auth.uid == userId && 
+         !request.resource.data.diff(resource.data).affectedKeys().hasAny(['role', 'isActive'])) ||
+        isAdmin()
+      );
+      
+      // Only admins can delete users
+      allow delete: if isAdmin();
+    }
+    
+    // ==================== PATIENTS COLLECTION ====================
+    
+    match /patients/{patientId} {
+      // All authenticated users can read patients
+      allow read: if isAuthenticated() && isActiveUser();
+      
+      // Doctors, nurses, receptionists, and admins can create patients
+      allow create: if isAuthenticated() && isActiveUser() && 
+        (isAdmin() || isDoctor() || isNurse() || isReceptionist()) &&
+        request.resource.data.keys().hasAll(['name', 'phone']) &&
+        request.resource.data.name is string &&
+        request.resource.data.name.size() > 0 &&
+        isValidPhone(request.resource.data.phone);
+      
+      // Doctors, nurses, receptionists, and admins can update patients
+      allow update: if isAuthenticated() && isActiveUser() && 
+        (isAdmin() || isDoctor() || isNurse() || isReceptionist());
+      
+      // Only admins can delete patients
+      allow delete: if isAdmin();
+    }
+    
+    // ==================== APPOINTMENTS COLLECTION ====================
+    
+    match /appointments/{appointmentId} {
+      // All authenticated users can read appointments
+      allow read: if isAuthenticated() && isActiveUser();
+      
+      // All authenticated users can create appointments
+      allow create: if isAuthenticated() && isActiveUser() &&
+        request.resource.data.keys().hasAll(['patientId', 'date', 'time', 'status']) &&
+        request.resource.data.status in ['scheduled', 'confirmed', 'cancelled', 'completed'];
+      
+      // All authenticated users can update appointments
+      allow update: if isAuthenticated() && isActiveUser();
+      
+      // Admins and receptionists can delete appointments
+      allow delete: if isAdmin() || isReceptionist();
+    }
+    
+    // ==================== INVENTORY COLLECTION ====================
+    
+    match /inventory/{itemId} {
+      // All authenticated users can read inventory
+      allow read: if isAuthenticated() && isActiveUser();
+      
+      // Only admins and pharmacists can write inventory
+      allow write: if isAuthenticated() && isActiveUser() && 
+        (isAdmin() || isPharmacist()) &&
+        request.resource.data.keys().hasAll(['name', 'currentStock', 'minimumStock']) &&
+        request.resource.data.currentStock >= 0 &&
+        request.resource.data.minimumStock >= 0;
+    }
+    
+    // ==================== PRESCRIPTIONS COLLECTION ====================
+    
+    match /prescriptions/{prescriptionId} {
+      // All authenticated users can read prescriptions
+      allow read: if isAuthenticated() && isActiveUser();
+      
+      // Only doctors can create prescriptions
+      allow create: if isAuthenticated() && isActiveUser() && isDoctor() &&
+        request.resource.data.keys().hasAll(['patientId', 'medications']) &&
+        request.resource.data.medications is list;
+      
+      // Doctors and pharmacists can update prescriptions
+      allow update: if isAuthenticated() && isActiveUser() && 
+        (isDoctor() || isPharmacist());
+      
+      // Only admins can delete prescriptions
+      allow delete: if isAdmin();
+    }
+    
+    // ==================== LAB ORDERS COLLECTION ====================
+    
+    match /labOrders/{orderId} {
+      // All authenticated users can read lab orders
+      allow read: if isAuthenticated() && isActiveUser();
+      
+      // Only doctors can create lab orders
+      allow create: if isAuthenticated() && isActiveUser() && isDoctor() &&
+        request.resource.data.keys().hasAll(['patientId', 'testType', 'status']) &&
+        request.resource.data.status in ['pending', 'in-progress', 'completed', 'cancelled'];
+      
+      // Doctors and lab technicians can update lab orders
+      allow update: if isAuthenticated() && isActiveUser() && 
+        (isDoctor() || isLabTech());
+      
+      // Only admins can delete lab orders
+      allow delete: if isAdmin();
+    }
+    
+    // ==================== RADIOLOGY STUDIES COLLECTION ====================
+    
+    match /radiologyStudies/{studyId} {
+      // All authenticated users can read radiology studies
+      allow read: if isAuthenticated() && isActiveUser();
+      
+      // Doctors and radiologists can create studies
+      allow create: if isAuthenticated() && isActiveUser() && 
+        (isDoctor() || isRadiologist()) &&
+        request.resource.data.keys().hasAll(['patientId', 'modality', 'status']) &&
+        request.resource.data.status in ['pending', 'in-progress', 'completed', 'reported'];
+      
+      // Radiologists can update studies
+      allow update: if isAuthenticated() && isActiveUser() && isRadiologist();
+      
+      // Only admins can delete studies
+      allow delete: if isAdmin();
+    }
+    
+    // ==================== INVOICES COLLECTION ====================
+    
+    match /invoices/{invoiceId} {
+      // All authenticated users can read invoices
+      allow read: if isAuthenticated() && isActiveUser();
+      
+      // Admins and billing staff can create invoices
+      allow create: if isAuthenticated() && isActiveUser() && 
+        (isAdmin() || isBilling()) &&
+        request.resource.data.keys().hasAll(['patientId', 'totalAmount', 'status']) &&
+        request.resource.data.totalAmount >= 0 &&
+        request.resource.data.status in ['pending', 'paid', 'cancelled', 'overdue'];
+      
+      // Admins and billing staff can update invoices
+      allow update: if isAuthenticated() && isActiveUser() && 
+        (isAdmin() || isBilling());
+      
+      // Only admins can delete invoices
+      allow delete: if isAdmin();
+    }
+    
+    // ==================== INSURANCE CLAIMS COLLECTION ====================
+    
+    match /insuranceClaims/{claimId} {
+      // All authenticated users can read insurance claims
+      allow read: if isAuthenticated() && isActiveUser();
+      
+      // Admins and billing staff can write insurance claims
+      allow write: if isAuthenticated() && isActiveUser() && 
+        (isAdmin() || isBilling());
+    }
+    
+    // ==================== STAFF COLLECTION ====================
+    
+    match /staff/{staffId} {
+      // All authenticated users can read staff
+      allow read: if isAuthenticated() && isActiveUser();
+      
+      // Only admins can write staff
+      allow write: if isAdmin() &&
+        request.resource.data.keys().hasAll(['name', 'email', 'role', 'status']) &&
+        isValidEmail(request.resource.data.email) &&
+        request.resource.data.role in ['admin', 'doctor', 'nurse', 'receptionist', 'pharmacist', 'lab_technician', 'radiologist', 'billing'] &&
+        request.resource.data.status in ['active', 'inactive', 'on_leave'];
+    }
+    
+    // ==================== STATISTICS COLLECTION ====================
+    
+    match /statistics/{statId} {
+      // All authenticated users can read statistics
+      allow read: if isAuthenticated() && isActiveUser();
+      
+      // Only admins can write statistics
+      allow write: if isAdmin();
+    }
+    
+    // ==================== AUDIT LOGS COLLECTION ====================
+    
+    match /auditLogs/{logId} {
+      // Only admins can read audit logs
+      allow read: if isAdmin();
+      
+      // System can write audit logs (via Cloud Functions)
+      // No direct writes from clients
+      allow write: if false;
+    }
+    
+    // ==================== NOTIFICATIONS COLLECTION ====================
+    
+    match /notifications/{notificationId} {
+      // Users can read their own notifications
+      allow read: if isAuthenticated() && 
+        (resource.data.userId == request.auth.uid || isAdmin());
+      
+      // System can create notifications (via Cloud Functions)
+      allow create: if isAuthenticated();
+      
+      // Users can update their own notifications (mark as read)
+      allow update: if isAuthenticated() && 
+        resource.data.userId == request.auth.uid;
+      
+      // Users can delete their own notifications
+      allow delete: if isAuthenticated() && 
+        (resource.data.userId == request.auth.uid || isAdmin());
+    }
+    
+    // ==================== DEPARTMENTS COLLECTION ====================
+    
+    match /departments/{departmentId} {
+      // All authenticated users can read departments
+      allow read: if isAuthenticated() && isActiveUser();
+      
+      // Only admins can write departments
+      allow write: if isAdmin();
+    }
+    
+    // ==================== HEALTH CHECK COLLECTION ====================
+    
+    match /_health/{document=**} {
+      // Allow read for health checks
+      allow read: if true;
+      
+      // No writes allowed
+      allow write: if false;
+    }
+    
+    // ==================== DEFAULT DENY ====================
+    
+    // Deny all other access by default
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
