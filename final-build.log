@@ -1,0 +1,22 @@
+
+> hospital mangement@0.1.0 build
+> vite build
+
+vite v6.3.5 building for production...
+transforming...
+✓ 3808 modules transformed.
+rendering chunks...
+[plugin vite:reporter] 
+(!) /Users/macbook/Downloads/Hospitalmangement-main/src/config/firebase.ts is dynamically imported by /Users/macbook/Downloads/Hospitalmangement-main/src/components/AppRouter.tsx but also statically imported by /Users/macbook/Downloads/Hospitalmangement-main/src/config/initializeFirestore.ts, /Users/macbook/Downloads/Hospitalmangement-main/src/hooks/useFirebaseAuth.tsx, /Users/macbook/Downloads/Hospitalmangement-main/src/services/FirebaseApiService.tsx, /Users/macbook/Downloads/Hospitalmangement-main/src/services/FirebaseService.tsx, dynamic import will not move module into another chunk.
+
+computing gzip size...
+build/index.html                                  0.43 kB │ gzip:   0.28 kB
+build/assets/index-B8DlfVKL.css                 200.58 kB │ gzip:  27.08 kB
+build/assets/initializeFirestore-D-8P5P0y.js      3.92 kB │ gzip:   1.48 kB
+build/assets/index-DEmLzHko.js                3,792.68 kB │ gzip: 866.11 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 15.84s

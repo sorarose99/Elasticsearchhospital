@@ -47,7 +47,7 @@ const translations = {
     title: 'Billing Dashboard',
     overview: 'Financial Overview',
     invoices: 'Invoices',
-    insurance: 'Insurance Claims',
+    insuranceTab: 'Insurance Claims',
     reports: 'Financial Reports',
     todayRevenue: "Today's Revenue",
     pendingPayments: 'Pending Payments',
@@ -83,7 +83,7 @@ const translations = {
     title: 'لوحة تحكم الفواتير',
     overview: 'نظرة مالية عامة',
     invoices: 'الفواتير',
-    insurance: 'مطالبات التأمين',
+    insuranceTab: 'مطالبات التأمين',
     reports: 'التقارير المالية',
     todayRevenue: 'إيرادات اليوم',
     pendingPayments: 'مدفوعات معلقة',
@@ -291,7 +291,7 @@ export default function BillingDashboard({ user, onLogout, language, onLanguageC
             </TabsTrigger>
             <TabsTrigger value="insurance">
               <CreditCard className="w-4 h-4 mr-2" />
-              {t.insurance}
+              {t.insuranceTab}
             </TabsTrigger>
             <TabsTrigger value="reports">
               <DollarSign className="w-4 h-4 mr-2" />
@@ -423,7 +423,7 @@ export default function BillingDashboard({ user, onLogout, language, onLanguageC
           <TabsContent value="insurance">
             <Card>
               <CardHeader>
-                <CardTitle>{t.insurance}</CardTitle>
+                <CardTitle>{t.insuranceTab}</CardTitle>
                 <CardDescription>Manage insurance claims and approvals</CardDescription>
               </CardHeader>
               <CardContent>

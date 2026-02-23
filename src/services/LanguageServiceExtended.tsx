@@ -462,16 +462,9 @@ export const extendedTranslations = {
     'appointments.title': 'Appointments',
     'appointments.schedule': 'Schedule Appointment',
     
-    // Patients
-    'patients.addPatient': 'Add Patient',
-    
-    // Pharmacy
-    'pharmacy.lowStock': 'Low Stock',
-    'pharmacy.expired': 'Expired',
-    'pharmacy.addMedication': 'Add Medication',
-    
-    // Lab
-    'lab.critical': 'Critical',
+    // Pharmacy (detailed definitions below)
+    // Lab (detailed definitions below)
+    // Common (detailed definitions below)
     
     // Reports
     'reports.generate': 'Generate Report',
@@ -846,12 +839,6 @@ export const extendedTranslations = {
     'billing.invoiceItems': 'Invoice Items',
     'billing.addItem': 'Add Item',
     'billing.serviceDescription': 'Service description',
-    'common.allStatuses': 'All Statuses',
-    'common.search': 'Search',
-    'common.filter': 'Filter',
-    'common.export': 'Export',
-    'common.status': 'Status',
-    'common.actions': 'Actions',
 
     // Pharmacy Management
     'pharmacy.title': 'Pharmacy Management',
@@ -1098,16 +1085,10 @@ export const extendedTranslations = {
     'appointments.title': 'المواعيد',
     'appointments.schedule': 'جدولة موعد',
     
-    // Patients
-    'patients.addPatient': 'إضافة مريض',
+    // Patients (detailed definitions below)
     
-    // Pharmacy
-    'pharmacy.lowStock': 'مخزون منخفض',
-    'pharmacy.expired': 'منتهي الصلاحية',
-    'pharmacy.addMedication': 'إضافة دواء',
-    
-    // Lab
-    'lab.critical': 'حرج',
+    // Pharmacy (detailed definitions below)
+    // Lab (detailed definitions below)
     
     // Reports
     'reports.generate': 'إنشاء تقرير',
@@ -1482,12 +1463,6 @@ export const extendedTranslations = {
     'billing.invoiceItems': 'بنود الفاتورة',
     'billing.addItem': 'إضافة بند',
     'billing.serviceDescription': 'وصف الخدمة',
-    'common.allStatuses': 'جميع الحالات',
-    'common.search': 'بحث',
-    'common.filter': 'تصفية',
-    'common.export': 'تصدير',
-    'common.status': 'الحالة',
-    'common.actions': 'الإجراءات',
 
     // Pharmacy Management
     'pharmacy.title': 'إدارة الصيدلية',

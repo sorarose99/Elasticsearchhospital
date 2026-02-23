@@ -237,9 +237,7 @@ export const inventoryTranslations = {
     'inventory.importProgress': 'Import Progress',
     
     // Alerts and Messages
-    'inventory.lowStockAlert': 'Low Stock Alert',
     'inventory.itemsNeedRestock': 'items need restocking',
-    'inventory.expiryAlert': 'Expiry Alert',
     'inventory.itemsExpiringSoon': 'items expiring soon',
     'inventory.outOfStockAlert': 'Out of Stock Alert',
     'inventory.itemsOutOfStock': 'items are out of stock',
@@ -526,9 +524,7 @@ export const inventoryTranslations = {
     'inventory.importProgress': 'تقدم الاستيراد',
     
     // التنبيهات والرسائل
-    'inventory.lowStockAlert': 'تنبيه المخزون المنخفض',
     'inventory.itemsNeedRestock': 'صنف يحتاج إعادة تخزين',
-    'inventory.expiryAlert': 'تنبيه انتهاء الصلاحية',
     'inventory.itemsExpiringSoon': 'صنف سينتهي قريباً',
     'inventory.outOfStockAlert': 'تنبيه نفاد المخزون',
     'inventory.itemsOutOfStock': 'صنف نفد من المخزون',

@@ -257,9 +257,9 @@ export const communicationTranslations = {
     ar: 'تسجيل المكالمة',
     en: 'Record Call'
   },
-  stopRecording: {
-    ar: 'إيقاف التسجيل',
-    en: 'Stop Recording'
+  stopRecordingCall: {
+    ar: 'إيقاف تسجيل المكالمة',
+    en: 'Stop Recording Call'
   },
   callDuration: {
     ar: 'مدة المكالمة',
@@ -275,9 +275,9 @@ export const communicationTranslations = {
   },
 
   // Call Status
-  connecting: {
-    ar: 'جاري الاتصال...',
-    en: 'Connecting...'
+  connectingCall: {
+    ar: 'جاري الاتصال بالمكالمة...',
+    en: 'Connecting Call...'
   },
   ringing: {
     ar: 'يرن...',
