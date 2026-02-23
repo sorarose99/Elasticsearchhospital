@@ -182,17 +182,19 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({
       };
     }
 
-    // Real WebSocket connection - skip in demo mode
+    // Real WebSocket connection - skip in demo mode or if not configured
     const connectWebSocket = () => {
-      // Don't connect WebSocket in demo mode
-      if (isDemoMode) {
-        console.log('WebSocket disabled in demo mode');
+      // Don't connect WebSocket in demo mode or if WebSocket URL is not configured
+      const wsUrl = import.meta.env.VITE_WEBSOCKET_URL;
+      
+      if (isDemoMode || !wsUrl || wsUrl === 'wss://your-websocket-server.com/ws') {
+        console.log('WebSocket disabled (demo mode or not configured)');
         return;
       }
       
       try {
-        const wsUrl = `wss://your-websocket-server.com/ws?userId=${userId}&role=${userRole}`;
-        const newSocket = new WebSocket(wsUrl);
+        const fullWsUrl = `${wsUrl}?userId=${userId}&role=${userRole}`;
+        const newSocket = new WebSocket(fullWsUrl);
 
         newSocket.onopen = () => {
           if (isMounted) {
