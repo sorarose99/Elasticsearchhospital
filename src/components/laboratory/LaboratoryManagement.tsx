@@ -126,6 +126,9 @@ interface LaboratoryManagementProps {
 const LaboratoryManagement: React.FC<LaboratoryManagementProps> = () => {
   const { t, language, isRTL } = useLanguage();
   const { effectiveTheme, themeConfig } = useTheme();
+  
+  // Always use Firebase mode (not demo mode)
+  const isDemoMode = false;
 
   const [activeTab, setActiveTab] = useState('orders');
   const [labOrders, setLabOrders] = useState<LabOrder[]>([]);
