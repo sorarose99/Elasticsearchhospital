@@ -37,6 +37,16 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error('App Error Boundary caught an error:', error, errorInfo);
     
+    // Log detailed error information for debugging
+    console.error('📍 Error Details:', {
+      message: error.message,
+      stack: error.stack,
+      componentStack: errorInfo.componentStack,
+      timestamp: new Date().toISOString(),
+      userAgent: navigator.userAgent,
+      url: window.location.href
+    });
+    
     // Enhanced logging for Supabase-related errors
     if (error.message.includes('GoTrueClient') || error.message.includes('supabase')) {
       console.error('🔴 Supabase-related error detected:', {
@@ -58,6 +68,15 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
           console.error('Failed to reset Supabase client:', resetError);
         }
       }
+    }
+    
+    // Log array/undefined errors with more context
+    if (error.message.includes('Cannot read properties of undefined')) {
+      console.error('🔴 Undefined property access error - likely missing null check:', {
+        error: error.message,
+        hint: 'Check for array operations (.map, .filter, .length) on potentially undefined values',
+        componentStack: errorInfo.componentStack
+      });
     }
   }
 

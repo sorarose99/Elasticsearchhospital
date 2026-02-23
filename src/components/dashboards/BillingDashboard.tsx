@@ -164,9 +164,9 @@ export default function BillingDashboard({ user, onLogout, language, onLanguageC
   const filteredInvoices = invoices.filter((invoice: any) =>
     invoice.patientName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     invoice.id?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    invoice.services?.some((service: string) => 
+    (Array.isArray(invoice.services) && invoice.services.some((service: string) => 
       service.toLowerCase().includes(searchTerm.toLowerCase())
-    )
+    ))
   );
 
   const todayRevenue = invoices
