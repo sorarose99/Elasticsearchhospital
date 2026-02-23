@@ -408,13 +408,13 @@ const PatientManagement: React.FC<PatientManagementProps> = ({ isDemoMode = fals
                             {patient.bloodType}
                           </Badge>
                         )}
-                        {patient.allergies.length > 0 && (
+                        {Array.isArray(patient.allergies) && patient.allergies.length > 0 && (
                           <Badge variant="outline" className="text-xs text-yellow-600">
                             <AlertTriangle className="h-3 w-3 mr-1" />
                             {patient.allergies.length} {t('patients.allergies')}
                           </Badge>
                         )}
-                        {patient.medicalHistory.length > 0 && (
+                        {Array.isArray(patient.medicalHistory) && patient.medicalHistory.length > 0 && (
                           <Badge variant="outline" className="text-xs">
                             <History className="h-3 w-3 mr-1" />
                             {patient.medicalHistory.length} {t('patients.conditions')}
@@ -533,7 +533,7 @@ const PatientManagement: React.FC<PatientManagementProps> = ({ isDemoMode = fals
                 <div>
                   <Label>{t('patients.allergies')}</Label>
                   <div className="flex flex-wrap gap-2 mt-2">
-                    {selectedPatient.allergies.length > 0 ? (
+                    {Array.isArray(selectedPatient.allergies) && selectedPatient.allergies.length > 0 ? (
                       selectedPatient.allergies.map((allergy, index) => (
                         <Badge key={index} variant="outline" className="text-yellow-600">
                           <AlertTriangle className="h-3 w-3 mr-1" />
@@ -549,7 +549,7 @@ const PatientManagement: React.FC<PatientManagementProps> = ({ isDemoMode = fals
                 <div>
                   <Label>{t('patients.medications')}</Label>
                   <div className="space-y-2 mt-2">
-                    {selectedPatient.medications.length > 0 ? (
+                    {Array.isArray(selectedPatient.medications) && selectedPatient.medications.length > 0 ? (
                       selectedPatient.medications.map((medication, index) => (
                         <p key={index} className="text-sm">• {medication}</p>
                       ))
@@ -562,7 +562,7 @@ const PatientManagement: React.FC<PatientManagementProps> = ({ isDemoMode = fals
                 <div>
                   <Label>{t('patients.medicalHistory')}</Label>
                   <div className="space-y-2 mt-2">
-                    {selectedPatient.medicalHistory.length > 0 ? (
+                    {Array.isArray(selectedPatient.medicalHistory) && selectedPatient.medicalHistory.length > 0 ? (
                       selectedPatient.medicalHistory.map((condition, index) => (
                         <p key={index} className="text-sm">• {condition}</p>
                       ))
