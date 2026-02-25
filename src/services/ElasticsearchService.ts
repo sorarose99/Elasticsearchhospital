@@ -14,23 +14,29 @@
 // npm install @elastic/elasticsearch@^8.12.0
 
 interface ElasticsearchConfig {
+  endpoint: string;
+  username: string;
+  password: string;
   apiKey: string;
-  // Add cloud ID or endpoint when available
 }
 
 class ElasticsearchService {
   private config: ElasticsearchConfig;
+  private client: any = null;
   private isConnected: boolean = false;
 
   constructor() {
     this.config = {
+      endpoint: import.meta.env.VITE_ELASTICSEARCH_ENDPOINT || '',
+      username: import.meta.env.VITE_ELASTICSEARCH_USERNAME || '',
+      password: import.meta.env.VITE_ELASTICSEARCH_PASSWORD || '',
       apiKey: import.meta.env.VITE_ELASTICSEARCH_API_KEY || ''
     };
 
-    if (this.config.apiKey) {
-      console.log('✅ Elasticsearch API key configured');
+    if (this.config.endpoint) {
+      console.log('✅ Elasticsearch endpoint configured:', this.config.endpoint);
     } else {
-      console.warn('⚠️ Elasticsearch API key not found in environment variables');
+      console.warn('⚠️ Elasticsearch endpoint not found in environment variables');
     }
   }
 
@@ -45,24 +51,29 @@ class ElasticsearchService {
       const { Client } = await import('@elastic/elasticsearch');
       
       this.client = new Client({
-        cloud: {
-          id: import.meta.env.VITE_ELASTICSEARCH_CLOUD_ID
-        },
+        node: this.config.endpoint,
         auth: {
-          apiKey: this.config.apiKey
+          username: this.config.username,
+          password: this.config.password
         }
       });
 
       // Test connection
       const info = await this.client.info();
       console.log('✅ Connected to Elasticsearch:', info.version.number);
+      console.log('📊 Cluster:', info.cluster_name);
       this.isConnected = true;
       
       // Create indexes if they don't exist
       await this.createIndexes();
       */
 
-      console.log('ℹ️ Elasticsearch service initialized (client not yet configured)');
+      console.log('ℹ️ Elasticsearch service initialized');
+      console.log('📍 Endpoint:', this.config.endpoint);
+      console.log('👤 Username:', this.config.username);
+      console.log('🔑 Password:', this.config.password ? '***' : 'not set');
+      console.log('');
+      console.log('⚠️ To activate: npm install @elastic/elasticsearch@^8.12.0');
       return true;
     } catch (error) {
       console.error('❌ Failed to initialize Elasticsearch:', error);
@@ -240,10 +251,14 @@ class ElasticsearchService {
   getStatus() {
     return {
       connected: this.isConnected,
-      apiKeyConfigured: !!this.config.apiKey,
+      endpointConfigured: !!this.config.endpoint,
+      credentialsConfigured: !!(this.config.username && this.config.password),
+      endpoint: this.config.endpoint,
       message: this.isConnected 
         ? 'Connected to Elasticsearch' 
-        : 'Elasticsearch not connected (install @elastic/elasticsearch package)'
+        : this.config.endpoint
+          ? 'Ready to connect (install @elastic/elasticsearch package)'
+          : 'Elasticsearch endpoint not configured'
     };
   }
 }
