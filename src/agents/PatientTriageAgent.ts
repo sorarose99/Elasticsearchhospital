@@ -5,15 +5,16 @@
  * determine urgency, and route to appropriate departments.
  * 
  * Features:
- * - Vector search for symptom matching
- * - Multi-step reasoning for urgency assessment
+ * - Vector search for symptom matching (Hugging Face embeddings)
+ * - Multi-step reasoning for urgency assessment (Google Gemini)
  * - Historical case analysis
  * - Department recommendation
  * 
  * Impact: 90% time reduction (30 seconds vs 5-10 minutes)
  */
 
-import { Client } from '@elastic/elasticsearch';
+// import { Client } from '@elastic/elasticsearch';
+import { aiService } from '../services/AIService';
 
 interface SymptomAnalysis {
   symptoms: string[];
@@ -35,11 +36,13 @@ interface PatientContext {
 }
 
 export class PatientTriageAgent {
-  private esClient: Client;
+  // private esClient: Client;
   private agentName = 'patient-triage-agent';
 
   constructor() {
     // Initialize Elasticsearch client
+    // TODO: Uncomment after installing @elastic/elasticsearch
+    /*
     this.esClient = new Client({
       cloud: {
         id: import.meta.env.VITE_ELASTICSEARCH_CLOUD_ID
@@ -48,6 +51,8 @@ export class PatientTriageAgent {
         apiKey: import.meta.env.VITE_ELASTICSEARCH_API_KEY
       }
     });
+    */
+    console.log(`🤖 ${this.agentName} initialized with Gemini + Hugging Face`);
   }
 
   /**
@@ -60,38 +65,32 @@ export class PatientTriageAgent {
     console.log(`🤖 ${this.agentName}: Starting triage analysis...`);
 
     try {
-      // Step 1: Search for similar cases using vector search
-      const similarCases = await this.searchSimilarCases(symptoms);
+      // Step 1: Use Gemini AI to analyze symptoms
+      console.log('🧠 Using Gemini AI for medical analysis...');
+      const aiAnalysis = await aiService.analyzeMedicalSymptoms(symptoms, patientContext);
+      console.log(`📊 AI Analysis: ${aiAnalysis.department} (${aiAnalysis.severity})`);
+
+      // Step 2: Generate embedding for vector search
+      console.log('🔍 Generating symptom embedding...');
+      const embedding = await aiService.generateEmbedding(symptoms);
+      console.log(`✅ Embedding generated (${embedding.length} dimensions)`);
+
+      // Step 3: Search for similar cases (TODO: implement with Elasticsearch)
+      const similarCases = await this.searchSimilarCases(symptoms, embedding);
       console.log(`📊 Found ${similarCases.length} similar cases`);
 
-      // Step 2: Analyze severity based on symptoms and history
-      const severity = await this.assessSeverity(symptoms, patientContext, similarCases);
-      console.log(`⚠️ Severity assessed as: ${severity}`);
-
-      // Step 3: Determine appropriate department
-      const department = await this.determineDepartment(symptoms, severity, similarCases);
-      console.log(`🏥 Recommended department: ${department}`);
-
-      // Step 4: Generate reasoning explanation
-      const reasoning = await this.generateReasoning(
-        symptoms,
-        severity,
-        department,
-        similarCases
+      // Step 4: Estimate wait time
+      const estimatedWaitTime = await this.estimateWaitTime(
+        aiAnalysis.department,
+        aiAnalysis.severity
       );
-
-      // Step 5: Calculate confidence score
-      const confidence = this.calculateConfidence(similarCases, severity);
-
-      // Step 6: Estimate wait time
-      const estimatedWaitTime = await this.estimateWaitTime(department, severity);
 
       return {
         symptoms: this.extractSymptomList(symptoms),
-        severity,
-        department,
-        reasoning,
-        confidence,
+        severity: aiAnalysis.severity as any,
+        department: aiAnalysis.department,
+        reasoning: aiAnalysis.reasoning,
+        confidence: aiAnalysis.confidence,
         similarCases: similarCases.length,
         estimatedWaitTime
       };
@@ -104,25 +103,31 @@ export class PatientTriageAgent {
   /**
    * Step 1: Search for similar cases using vector search
    */
-  private async searchSimilarCases(symptoms: string): Promise<any[]> {
+  private async searchSimilarCases(symptoms: string, embedding: number[]): Promise<any[]> {
     try {
-      // TODO: Implement vector search
+      // TODO: Implement vector search with Elasticsearch
       // This will use Elasticsearch's kNN search with symptom embeddings
       
-      // Placeholder implementation
+      console.log('ℹ️ Vector search will be implemented after Elasticsearch setup');
+      
+      // Placeholder: return empty array for now
+      return [];
+      
+      /* Uncomment after Elasticsearch is set up:
       const response = await this.esClient.search({
         index: 'medical_cases',
         body: {
-          query: {
-            match: {
-              symptoms: symptoms
-            }
-          },
-          size: 10
+          knn: {
+            field: 'symptoms_vector',
+            query_vector: embedding,
+            k: 10,
+            num_candidates: 100
+          }
         }
       });
 
       return response.hits.hits.map(hit => hit._source);
+      */
     } catch (error) {
       console.warn('⚠️ Similar case search failed, continuing with limited data');
       return [];
