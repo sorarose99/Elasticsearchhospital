@@ -12,7 +12,7 @@ import {
   FileText, Shield, Bell, User, Plus, Search,
   Monitor, Settings, TrendingUp, ClipboardList,
   UserCheck, Briefcase, Target, Award, Play,
-  CheckCircle, Edit, Eye, UserPlus, Pill
+  CheckCircle, Edit, Eye, UserPlus, Pill, RefreshCw, Printer
 } from 'lucide-react';
 import { useLanguage } from '../../services/LanguageService';
 import { motion } from 'motion/react';
@@ -945,6 +945,29 @@ function NursingManagement() {
       </Card>
     </div>
   );
+
+  const renderQuickActions = () => {
+    return (
+      <div className="grid grid-cols-2 gap-4">
+        <Button variant="outline" className="h-20 flex flex-col items-center justify-center gap-2">
+          <UserPlus className="h-6 w-6" />
+          <span>تسجيل مريض جديد</span>
+        </Button>
+        <Button variant="outline" className="h-20 flex flex-col items-center justify-center gap-2">
+          <Activity className="h-6 w-6" />
+          <span>قياس العلامات الحيوية</span>
+        </Button>
+        <Button variant="outline" className="h-20 flex flex-col items-center justify-center gap-2">
+          <Pill className="h-6 w-6" />
+          <span>إعطاء دواء</span>
+        </Button>
+        <Button variant="outline" className="h-20 flex flex-col items-center justify-center gap-2">
+          <ClipboardList className="h-6 w-6" />
+          <span>إضافة مهمة</span>
+        </Button>
+      </div>
+    );
+  };
 
   return (
     <div className="space-y-6" dir={isRTL ? 'rtl' : 'ltr'}>

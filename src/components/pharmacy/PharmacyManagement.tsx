@@ -670,9 +670,9 @@ const PharmacyManagement: React.FC<PharmacyManagementProps> = () => {
                           
                           {/* Pricing */}
                           <div className="mt-3 flex items-center gap-4 text-sm">
-                            <span><strong>{t('pharmacy.unitPrice')}:</strong> ${item.unitPrice.toFixed(2)}</span>
-                            <span><strong>{t('pharmacy.sellingPrice')}:</strong> ${item.sellingPrice.toFixed(2)}</span>
-                            <span><strong>{t('pharmacy.totalValue')}:</strong> ${(item.quantity * item.unitPrice).toFixed(2)}</span>
+                            <span><strong>{t('pharmacy.unitPrice')}:</strong> ${(item.unitPrice || 0).toFixed(2)}</span>
+                            <span><strong>{t('pharmacy.sellingPrice')}:</strong> ${(item.sellingPrice || 0).toFixed(2)}</span>
+                            <span><strong>{t('pharmacy.totalValue')}:</strong> ${((item.quantity || 0) * (item.unitPrice || 0)).toFixed(2)}</span>
                           </div>
                         </div>
                       </div>

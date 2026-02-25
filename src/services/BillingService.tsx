@@ -145,6 +145,27 @@ export class BillingService {
     console.log('Cancelling subscription:', subscriptionId);
     return true;
   }
+
+  // Format currency for display
+  formatCurrency(amount: number, currency: string = 'USD'): string {
+    try {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: currency,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(amount);
+    } catch (error) {
+      console.error('Error formatting currency:', error);
+      return `${currency} ${amount.toFixed(2)}`;
+    }
+  }
+
+  // Test connection
+  async testConnection(): Promise<void> {
+    console.log('BillingService connection test - OK');
+    return Promise.resolve();
+  }
 }
 
 export default new BillingService();

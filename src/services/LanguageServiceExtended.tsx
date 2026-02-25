@@ -56,6 +56,9 @@ export const extendedTranslations = {
     'landing.footer.rights': 'All rights reserved.',
     'landing.footer.global': 'Global Coverage',
     'landing.footer.secure': 'Secure & Compliant',
+    'landing.contact.title': 'Get in Touch',
+    'landing.contact.subtitle': 'Have questions? Our team is here to help you get started.',
+    'landing.advanced.badge': 'New Features',
 
     // Registration Page
     'register.title': 'Create Your Account',
@@ -961,6 +964,9 @@ export const extendedTranslations = {
     'landing.footer.rights': 'جميع الحقوق محفوظة.',
     'landing.footer.global': 'تغطية عالمية',
     'landing.footer.secure': 'آمن ومتوافق',
+    'landing.contact.title': 'تواصل معنا',
+    'landing.contact.subtitle': 'هل لديك أسئلة؟ فريقنا هنا لمساعدتك على البدء.',
+    'landing.advanced.badge': 'ميزات جديدة',
 
     // Registration Page Arabic
     'register.title': 'إنشاء حسابك',

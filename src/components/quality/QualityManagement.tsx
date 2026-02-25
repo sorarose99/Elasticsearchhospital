@@ -1497,7 +1497,7 @@ const QualityManagement: React.FC = () => {
                         {audit.recommendations.map((rec, index) => (
                           <li key={index} className="flex items-start">
                             <span className="mr-2">•</span>
-                            <span>{rec}</span>
+                            <span>{typeof rec === 'string' ? rec : rec.description}</span>
                           </li>
                         ))}
                       </ul>

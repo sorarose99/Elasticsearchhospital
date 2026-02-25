@@ -176,6 +176,7 @@ const SidebarComponent: React.FC<SidebarProps> = ({
               <div key={item.id} className="mb-1">
                 <div className="relative group">
                   <Button
+                    data-testid={`nav-${item.moduleId}`}
                     variant={isActive ? "secondary" : "ghost"}
                     className={`
                       w-full justify-start h-9 px-2 navigation-item
@@ -238,6 +239,7 @@ const SidebarComponent: React.FC<SidebarProps> = ({
                       return (
                         <div key={childItem.id} className="relative group">
                           <Button
+                            data-testid={`nav-${item.moduleId}-${childItem.viewId}`}
                             variant={isViewActive ? "secondary" : "ghost"}
                             size="sm"
                             className={`

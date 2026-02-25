@@ -358,17 +358,11 @@ export default function QuickActionsManager({ userRole }: QuickActionsManagerPro
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {iconOptions.map(icon => {
-                      const IconComponent = icon.component;
-                      return (
-                        <SelectItem key={icon.name} value={icon.name}>
-                          <div className="flex items-center gap-2">
-                            <IconComponent className="w-4 h-4" />
-                            {icon.name}
-                          </div>
-                        </SelectItem>
-                      );
-                    })}
+                    {iconOptions.map(icon => (
+                      <SelectItem key={icon.name} value={icon.name}>
+                        {icon.name}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>

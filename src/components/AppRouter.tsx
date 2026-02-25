@@ -43,26 +43,119 @@ function AppContent() {
   const { user, loading, signOut, authType, switchAuthType } = useAdaptiveAuth();
   const { language, setLanguage } = useLanguage(); // Add language hook
 
-  // Check if user wants to configure auth on first run
+  // URL Routing - sync state with URL
   useEffect(() => {
-    const isFirstRun = !localStorage.getItem('preferredAuthType');
-    const hasAuthConfig = localStorage.getItem('hasSeenAuthConfig');
+    const path = window.location.pathname;
     
-    if (isFirstRun && !hasAuthConfig && !user) {
-      // Show auth switcher for first-time users
-      setCurrentPage('auth-switcher');
-      localStorage.setItem('hasSeenAuthConfig', 'true');
+    // Map URL paths to pages
+    if (path === '/' || path === '/landing') {
+      // If user is logged in and on landing page, redirect to dashboard
+      if (user) {
+        setCurrentPage('dashboard');
+        const dashboardUrl = user.role === 'admin' ? '/admin' : '/dashboard';
+        window.history.pushState({}, '', dashboardUrl);
+      } else {
+        setCurrentPage('landing');
+      }
+    } else if (path === '/login') {
+      // If user is logged in and on login page, redirect to dashboard
+      if (user) {
+        setCurrentPage('dashboard');
+        const dashboardUrl = user.role === 'admin' ? '/admin' : '/dashboard';
+        window.history.pushState({}, '', dashboardUrl);
+      } else {
+        setCurrentPage('login');
+      }
+    } else if (path === '/register') {
+      setCurrentPage('register');
+    } else if (path === '/pricing') {
+      setCurrentPage('pricing');
+    } else if (path === '/privacy') {
+      setCurrentPage('privacy');
+    } else if (path === '/terms') {
+      setCurrentPage('terms');
+    } else if (path === '/mobile-app') {
+      setCurrentPage('mobile-app');
+    } else if (path === '/ai-diagnostics') {
+      setCurrentPage('ai-diagnostics');
+    } else if (path === '/enterprise') {
+      setCurrentPage('enterprise-settings');
+    } else if (path.startsWith('/dashboard') || path.startsWith('/admin') || path.startsWith('/patient')) {
+      if (user) {
+        setCurrentPage('dashboard');
+      } else {
+        setCurrentPage('login');
+      }
     }
   }, [user]);
 
-  // Redirect to dashboard if user is logged in
+  // Handle browser back/forward buttons
   useEffect(() => {
-    if (user && currentPage !== 'dashboard') {
-      setCurrentPage('dashboard');
-    } else if (!user && currentPage === 'dashboard') {
-      setCurrentPage('login');
-    }
-  }, [user, currentPage]);
+    const handlePopState = () => {
+      const path = window.location.pathname;
+      
+      if (path === '/' || path === '/landing') {
+        if (user) {
+          setCurrentPage('dashboard');
+        } else {
+          setCurrentPage('landing');
+        }
+      } else if (path === '/login') {
+        if (user) {
+          setCurrentPage('dashboard');
+        } else {
+          setCurrentPage('login');
+        }
+      } else if (path === '/register') {
+        setCurrentPage('register');
+      } else if (path === '/pricing') {
+        setCurrentPage('pricing');
+      } else if (path === '/privacy') {
+        setCurrentPage('privacy');
+      } else if (path === '/terms') {
+        setCurrentPage('terms');
+      } else if (path === '/mobile-app') {
+        setCurrentPage('mobile-app');
+      } else if (path === '/ai-diagnostics') {
+        setCurrentPage('ai-diagnostics');
+      } else if (path === '/enterprise') {
+        setCurrentPage('enterprise-settings');
+      } else if (path.startsWith('/dashboard') || path.startsWith('/admin') || path.startsWith('/patient')) {
+        if (user) {
+          setCurrentPage('dashboard');
+        } else {
+          setCurrentPage('login');
+        }
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [user]);
+
+  // Update URL when page changes
+  const navigateTo = (page: AppPage) => {
+    setCurrentPage(page);
+    
+    // Update URL without page reload
+    const urlMap: Record<AppPage, string> = {
+      'landing': '/',
+      'login': '/login',
+      'register': '/register',
+      'pricing': '/pricing',
+      'privacy': '/privacy',
+      'terms': '/terms',
+      'dashboard': user?.role === 'admin' ? '/admin' : `/dashboard`,
+      'mobile-app': '/mobile-app',
+      'ai-diagnostics': '/ai-diagnostics',
+      'enterprise-settings': '/enterprise',
+      'auth-switcher': '/login',
+      'billing': '/pricing'
+    };
+    
+    const newUrl = urlMap[page] || '/';
+    window.history.pushState({}, '', newUrl);
+  };
 
   // Enhanced connection testing on app start - connecting to Firebase
   useEffect(() => {
@@ -118,10 +211,6 @@ function AppContent() {
     // Test connections on startup
     testConnections();
   }, []);
-
-  const navigateTo = (page: AppPage) => {
-    setCurrentPage(page);
-  };
 
   const handleLogoutAndRedirect = async () => {
     await signOut();

@@ -132,9 +132,18 @@ export default function LandingPage({ onLogin, onRegister, onPricing, onPrivacy,
 
             <nav className="hidden md:flex items-center gap-6">
               <Button variant="ghost" onClick={onPricing}>{t('landing.nav.pricing')}</Button>
-              <Button variant="ghost">{t('landing.nav.features')}</Button>
-              <Button variant="ghost">{t('landing.nav.about')}</Button>
-              <Button variant="ghost">{t('landing.nav.contact')}</Button>
+              <Button variant="ghost" onClick={() => {
+                const featuresSection = document.getElementById('features');
+                featuresSection?.scrollIntoView({ behavior: 'smooth' });
+              }}>{t('landing.nav.features')}</Button>
+              <Button variant="ghost" onClick={() => {
+                const aboutSection = document.getElementById('about');
+                aboutSection?.scrollIntoView({ behavior: 'smooth' });
+              }}>{t('landing.nav.about')}</Button>
+              <Button variant="ghost" onClick={() => {
+                const contactSection = document.getElementById('contact');
+                contactSection?.scrollIntoView({ behavior: 'smooth' });
+              }}>{t('landing.nav.contact')}</Button>
             </nav>
 
             <div className="flex items-center gap-3">
@@ -172,7 +181,15 @@ export default function LandingPage({ onLogin, onRegister, onPricing, onPrivacy,
                 {t('landing.hero.cta')}
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
-              <Button size="lg" variant="outline" className="px-8 hover-lift">
+              <Button size="lg" variant="outline" className="px-8 hover-lift" onClick={() => {
+                const demoSection = document.getElementById('demo-video');
+                if (demoSection) {
+                  demoSection.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                  // Open demo video modal or navigate to demo page
+                  window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank');
+                }
+              }}>
                 <Play className="w-5 h-5 mr-2" />
                 {t('landing.hero.watchDemo')}
               </Button>
@@ -196,7 +213,7 @@ export default function LandingPage({ onLogin, onRegister, onPricing, onPrivacy,
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-gray-50 dark:bg-background/50">
+      <section id="features" className="py-20 bg-gray-50 dark:bg-background/50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -231,7 +248,7 @@ export default function LandingPage({ onLogin, onRegister, onPricing, onPrivacy,
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20">
+      <section id="about" className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -474,6 +491,66 @@ export default function LandingPage({ onLogin, onRegister, onPricing, onPrivacy,
               </Button>
               <Button size="lg" variant="outline" onClick={onPricing} className="px-8 border-white text-white hover:bg-white hover:text-blue-600 hover-lift">
                 {t('landing.cta.viewPricing')}
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-20 bg-gray-50 dark:bg-background/50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              {t('landing.contact.title') || 'Get in Touch'}
+            </h2>
+            <p className="text-xl text-muted-foreground mb-8">
+              {t('landing.contact.subtitle') || 'Have questions? Our team is here to help you get started.'}
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+              <Card>
+                <CardContent className="p-6 text-center">
+                  <div className="w-12 h-12 mx-auto mb-4 rounded-lg bg-blue-100 dark:bg-blue-900 flex items-center justify-center">
+                    <Users className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <h3 className="font-semibold mb-2">Sales</h3>
+                  <p className="text-sm text-muted-foreground mb-3">Talk to our sales team</p>
+                  <a href="mailto:sales@medicore.com" className="text-blue-600 hover:underline text-sm">
+                    sales@medicore.com
+                  </a>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-6 text-center">
+                  <div className="w-12 h-12 mx-auto mb-4 rounded-lg bg-green-100 dark:bg-green-900 flex items-center justify-center">
+                    <Shield className="w-6 h-6 text-green-600" />
+                  </div>
+                  <h3 className="font-semibold mb-2">Support</h3>
+                  <p className="text-sm text-muted-foreground mb-3">Get technical support</p>
+                  <a href="mailto:support@medicore.com" className="text-blue-600 hover:underline text-sm">
+                    support@medicore.com
+                  </a>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-6 text-center">
+                  <div className="w-12 h-12 mx-auto mb-4 rounded-lg bg-purple-100 dark:bg-purple-900 flex items-center justify-center">
+                    <Building2 className="w-6 h-6 text-purple-600" />
+                  </div>
+                  <h3 className="font-semibold mb-2">Enterprise</h3>
+                  <p className="text-sm text-muted-foreground mb-3">Enterprise solutions</p>
+                  <a href="mailto:enterprise@medicore.com" className="text-blue-600 hover:underline text-sm">
+                    enterprise@medicore.com
+                  </a>
+                </CardContent>
+              </Card>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" onClick={onRegister} className="bg-blue-600 hover:bg-blue-700">
+                Start Free Trial
+              </Button>
+              <Button size="lg" variant="outline" onClick={() => window.open('https://calendly.com/medicore', '_blank')}>
+                Schedule a Demo
               </Button>
             </div>
           </div>

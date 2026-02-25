@@ -19,7 +19,9 @@ import PatientEMR from './medical/PatientEMR';
 
 // Import new comprehensive components
 import PatientManagement from './patients/PatientManagement';
+import PatientNavigationHub from './patients/PatientNavigationHub';
 import AppointmentsDashboard from './appointments/AppointmentsDashboard';
+import AppointmentsNavigationHub from './appointments/AppointmentsNavigationHub';
 import ComprehensiveAppointmentScheduler from './appointments/ComprehensiveAppointmentScheduler';
 import PharmacyManagement from './pharmacy/PharmacyManagement';
 import LaboratoryManagement from './laboratory/LaboratoryManagement';
@@ -104,27 +106,12 @@ const DashboardContent: React.FC<Omit<DashboardRouterProps, 'user'> & { user: Us
         return getDashboardByRole(user.role);
 
       case 'patients':
-        switch (currentView) {
-          case 'list':
-            return <PatientManagement />;
-          case 'registration':
-            return <PatientManagement />;
-          case 'emr':
-            // EMR needs patient data - redirect to patient list if no patient selected
-            return <PatientManagement />;
-          default:
-            return <PatientManagement />;
-        }
+        // Use the new comprehensive PatientNavigationHub
+        return <PatientNavigationHub isDemoMode={isDemoMode} />;
 
       case 'appointments':
-        switch (currentView) {
-          case 'scheduler':
-            return <ComprehensiveAppointmentScheduler />;
-          case 'dashboard':
-            return <AppointmentsDashboard isDemoMode={isDemoMode} />;
-          default:
-            return <ComprehensiveAppointmentScheduler />;
-        }
+        // Use the new comprehensive AppointmentsNavigationHub
+        return <AppointmentsNavigationHub isDemoMode={isDemoMode} />;
 
       case 'laboratory':
         switch (currentView) {
