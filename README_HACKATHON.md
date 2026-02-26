@@ -1,4 +1,6 @@
-# Healthcare AI Agents with Elasticsearch Agent Builder 🏥
+# Healthcare AI Agents with Elasticsearch Agent Builder
+
+🎥 **Demo Video:** https://youtu.be/Skx6NfaYD3A 🏥
 
 > Multi-agent healthcare system for the Elasticsearch Agent Builder Hackathon
 

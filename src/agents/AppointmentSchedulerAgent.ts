@@ -13,8 +13,6 @@
  * Impact: 87% time reduction (2 minutes vs 15 minutes)
  */
 
-import { Client } from '@elastic/elasticsearch';
-
 interface AppointmentRequest {
   patientId: string;
   department: string;
@@ -46,18 +44,27 @@ interface ConflictResolution {
 }
 
 export class AppointmentSchedulerAgent {
-  private esClient: Client;
+  private esClient: any;
   private agentName = 'appointment-scheduler-agent';
 
   constructor() {
-    this.esClient = new Client({
-      cloud: {
-        id: import.meta.env.VITE_ELASTICSEARCH_CLOUD_ID
-      },
-      auth: {
-        apiKey: import.meta.env.VITE_ELASTICSEARCH_API_KEY
-      }
-    });
+    this.initializeClient();
+  }
+
+  private async initializeClient() {
+    try {
+      const { Client } = await import('@elastic/elasticsearch');
+      this.esClient = new Client({
+        node: import.meta.env.VITE_ELASTICSEARCH_ENDPOINT,
+        auth: {
+          username: import.meta.env.VITE_ELASTICSEARCH_USERNAME,
+          password: import.meta.env.VITE_ELASTICSEARCH_PASSWORD
+        }
+      });
+      console.log(`🤖 ${this.agentName} initialized`);
+    } catch (error) {
+      console.warn('Elasticsearch client not available, using fallback mode');
+    }
   }
 
   /**

@@ -36,23 +36,28 @@ interface PatientContext {
 }
 
 export class PatientTriageAgent {
-  // private esClient: Client;
+  private esClient: any;
   private agentName = 'patient-triage-agent';
 
   constructor() {
-    // Initialize Elasticsearch client
-    // TODO: Uncomment after installing @elastic/elasticsearch
-    /*
-    this.esClient = new Client({
-      cloud: {
-        id: import.meta.env.VITE_ELASTICSEARCH_CLOUD_ID
-      },
-      auth: {
-        apiKey: import.meta.env.VITE_ELASTICSEARCH_API_KEY
-      }
-    });
-    */
+    // Initialize Elasticsearch client dynamically
+    this.initializeClient();
     console.log(`🤖 ${this.agentName} initialized with Gemini + Hugging Face`);
+  }
+
+  private async initializeClient() {
+    try {
+      const { Client } = await import('@elastic/elasticsearch');
+      this.esClient = new Client({
+        node: import.meta.env.VITE_ELASTICSEARCH_ENDPOINT,
+        auth: {
+          username: import.meta.env.VITE_ELASTICSEARCH_USERNAME,
+          password: import.meta.env.VITE_ELASTICSEARCH_PASSWORD
+        }
+      });
+    } catch (error) {
+      console.warn('Elasticsearch client not available, using fallback mode');
+    }
   }
 
   /**
@@ -277,6 +282,10 @@ export class PatientTriageAgent {
     severity: string
   ): Promise<string> {
     try {
+      if (!this.esClient) {
+        return this.getDefaultWaitTime(severity);
+      }
+
       // Query current department load
       const response = await this.esClient.search({
         index: 'appointments',
@@ -302,8 +311,14 @@ export class PatientTriageAgent {
       if (waitingCount < 6) return '30-60 minutes';
       return '1-2 hours';
     } catch (error) {
-      return '30-60 minutes'; // Default estimate
+      return this.getDefaultWaitTime(severity);
     }
+  }
+
+  private getDefaultWaitTime(severity: string): string {
+    if (severity === 'critical') return 'Immediate';
+    if (severity === 'high') return '5-15 minutes';
+    return '30-60 minutes';
   }
 
   /**
@@ -332,6 +347,8 @@ export class PatientTriageAgent {
    */
   private async logActivity(activity: string, data: any): Promise<void> {
     try {
+      if (!this.esClient) return;
+      
       await this.esClient.index({
         index: 'agent_logs',
         document: {

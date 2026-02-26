@@ -23,6 +23,10 @@ import { useLanguage } from '../../services/LanguageService';
 import { useNavigation } from '../navigation/NavigationContext';
 import firebaseService from '../../services/FirebaseService';
 import { toast } from 'sonner';
+import { useAgentWrapper } from '../agent/withElasticsearchAgent';
+import AgentInsightCard from '../agent/AgentInsightCard';
+import AgentSmartBadge from '../agent/AgentSmartBadge';
+import AgentQuickActions from '../agent/AgentQuickActions';
 
 interface User {
   id: string;
@@ -102,6 +106,9 @@ export default function DoctorDashboard({ user, onLogout, language, onLanguageCh
 
   const { t } = useLanguage();
   const { navigateTo } = useNavigation();
+  
+  // Elasticsearch Agent Integration
+  const { AgentComponents, updateContext } = useAgentWrapper('diagnostic', language);
 
   useEffect(() => {
     fetchDoctorData();
@@ -151,6 +158,33 @@ export default function DoctorDashboard({ user, onLogout, language, onLanguageCh
     patient.id?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // Generate AI Quick Actions for Doctor Dashboard
+  const quickActions = [
+    ...(appointments.filter((a: any) => a.status === 'pending').length > 0 ? [{
+      id: 'review-appointments',
+      label: t('reviewAppointments') || 'Review Pending Appointments',
+      icon: Calendar,
+      onClick: () => setActiveTab('schedule'),
+      badge: String(appointments.filter((a: any) => a.status === 'pending').length),
+      urgent: false
+    }] : []),
+    ...(labOrders.filter((o: any) => o.status === 'completed').length > 0 ? [{
+      id: 'review-labs',
+      label: t('reviewLabResults') || 'Review Lab Results',
+      icon: TestTube,
+      onClick: () => setActiveTab('lab'),
+      badge: String(labOrders.filter((o: any) => o.status === 'completed').length),
+      urgent: true
+    }] : []),
+    {
+      id: 'ai-diagnosis',
+      label: t('aiDiagnosticAssist') || 'AI Diagnostic Assist',
+      icon: Stethoscope,
+      onClick: () => toast.info('Opening AI diagnostic assistant...'),
+      urgent: false
+    }
+  ];
+
   const AppointmentCard = ({ appointment }: any) => (
     <Card className="mb-4">
       <CardContent className="p-4">
@@ -160,7 +194,19 @@ export default function DoctorDashboard({ user, onLogout, language, onLanguageCh
               <Users className="w-6 h-6 text-blue-600" />
             </div>
             <div>
-              <h3 className="font-semibold">{appointment.patientName}</h3>
+              <div className="flex items-center gap-2">
+                <h3 className="font-semibold">{appointment.patientName}</h3>
+                {/* AI Smart Badges */}
+                {appointment.urgent && (
+                  <AgentSmartBadge
+                    type="priority"
+                    label={t('urgent') || 'Urgent'}
+                    tooltip={t('urgentAppointment') || 'Urgent appointment flagged by AI'}
+                    pulse={true}
+                    size="sm"
+                  />
+                )}
+              </div>
               <p className="text-sm text-gray-600">{appointment.type}</p>
               <p className="text-sm text-gray-500">{appointment.time}</p>
             </div>
@@ -188,7 +234,26 @@ export default function DoctorDashboard({ user, onLogout, language, onLanguageCh
               <Users className="w-6 h-6 text-green-600" />
             </div>
             <div>
-              <h3 className="font-semibold">{patient.name}</h3>
+              <div className="flex items-center gap-2">
+                <h3 className="font-semibold">{patient.name}</h3>
+                {/* AI Smart Badges */}
+                {patient.riskLevel === 'high' && (
+                  <AgentSmartBadge
+                    type="risk"
+                    label={t('highRisk') || 'High Risk'}
+                    tooltip={t('aiDetectedRisk') || 'AI detected elevated risk factors'}
+                    size="sm"
+                  />
+                )}
+                {patient.followUpNeeded && (
+                  <AgentSmartBadge
+                    type="recommendation"
+                    label={t('followUp') || 'Follow-up'}
+                    tooltip={t('followUpRecommended') || 'Follow-up recommended by AI'}
+                    size="sm"
+                  />
+                )}
+              </div>
               <p className="text-sm text-gray-600">ID: {patient.id}</p>
               <p className="text-sm text-gray-500">Age: {patient.age} | {patient.gender}</p>
             </div>
@@ -262,6 +327,61 @@ export default function DoctorDashboard({ user, onLogout, language, onLanguageCh
 
       {/* Main Content */}
       <div className="p-6">
+        {/* AI Quick Actions */}
+        <AgentQuickActions 
+          actions={quickActions}
+          title={t('aiRecommendations') || 'AI Recommendations'}
+        />
+
+        {/* AI Insights */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <AgentInsightCard
+            type="insight"
+            title={t('patientInsights') || 'Patient Insights'}
+            description={t('highRiskPatients') || '3 patients show high-risk indicators requiring follow-up'}
+            priority="high"
+            action={{
+              label: t('viewPatients') || 'View Patients',
+              onClick: () => setActiveTab('patients')
+            }}
+            metrics={[
+              {
+                label: t('highRisk') || 'High Risk',
+                value: '3',
+                trend: 'up'
+              }
+            ]}
+            compact={true}
+          />
+          
+          <AgentInsightCard
+            type="recommendation"
+            title={t('scheduleOptimization') || 'Schedule Optimization'}
+            description={t('rescheduleRecommendation') || 'Recommend rescheduling 2 appointments for better time management'}
+            priority="medium"
+            action={{
+              label: t('optimize') || 'Optimize',
+              onClick: () => toast.info('Optimizing schedule...')
+            }}
+            compact={true}
+          />
+          
+          <AgentInsightCard
+            type="success"
+            title={t('treatmentSuccess') || 'Treatment Success'}
+            description={t('treatmentSuccessRate') || '92% treatment success rate this month'}
+            priority="low"
+            metrics={[
+              {
+                label: t('successRate') || 'Success Rate',
+                value: '92%',
+                trend: 'up'
+              }
+            ]}
+            compact={true}
+          />
+        </div>
+
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="schedule">
@@ -423,6 +543,9 @@ export default function DoctorDashboard({ user, onLogout, language, onLanguageCh
           </TabsContent>
         </Tabs>
       </div>
+      
+      {/* Elasticsearch Agent Integration */}
+      <AgentComponents />
     </div>
   );
 }

@@ -37,6 +37,7 @@
             "dotenv": "^17.3.1",
             "embla-carousel-react": "^8.6.0",
             "firebase": "^12.9.0",
+            "framer-motion": "^11.0.0",
             "hono": "*",
             "input-otp": "^1.4.2",
             "lucide-react": "^0.487.0",
@@ -65,6 +66,7 @@
             "@vitest/ui": "^4.0.18",
             "jsdom": "^28.1.0",
             "playwright": "^1.58.2",
+            "typescript": "^5.9.3",
             "vite": "6.3.5",
             "vitest": "^4.0.18"
       },
@@ -81,7 +83,11 @@
             "test:e2e": "vitest run tests/e2e/",
             "test:playwright": "playwright test",
             "test:playwright:ui": "playwright test --ui",
+            "demo:record": "node playwright-demo-recorder.js",
+            "demo:install": "npm install -D playwright && npx playwright install chromium",
             "test:playwright:headed": "playwright test --headed",
-            "test:playwright:report": "playwright show-report"
+            "test:playwright:report": "playwright show-report",
+            "setup:elasticsearch": "node setup-elasticsearch-agent.js",
+            "agent:demo": "echo 'Starting MediFlow AI Demo...' && npm run dev"
       }
 }

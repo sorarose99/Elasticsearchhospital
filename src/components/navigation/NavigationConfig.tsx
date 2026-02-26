@@ -1311,52 +1311,6 @@ export const navigationModules: NavigationModule[] = [
     ]
   },
 
-  // Testing Module (Admin only)
-  {
-    id: 'testing',
-    label: 'System Testing',
-    labelAr: 'اختبار النظام',
-    icon: TestTube2,
-    roles: ['admin'],
-    views: [
-      {
-        id: 'overview',
-        label: 'Testing Overview',
-        labelAr: 'نظرة عامة على الاختبارات',
-        icon: TestTube2
-      },
-      {
-        id: 'contrast',
-        label: 'Color Contrast Test',
-        labelAr: 'اختبار التباين',
-        icon: Palette
-      },
-      {
-        id: 'stability',
-        label: 'Color Stability Test',
-        labelAr: 'اختبار استقرار الألوان',
-        icon: Activity
-      }
-    ],
-    quickActions: [
-      {
-        id: 'run-contrast-test',
-        label: 'Run Contrast Test',
-        labelAr: 'تشغيل اختبار التباين',
-        icon: Palette,
-        roles: ['admin'],
-        action: 'navigate:testing/contrast'
-      },
-      {
-        id: 'run-stability-test',
-        label: 'Run Stability Test',
-        labelAr: 'تشغيل اختبار الاستقرار',
-        icon: Activity,
-        roles: ['admin'],
-        action: 'navigate:testing/stability'
-      }
-    ]
-  }
 ];
 
 // Helper functions

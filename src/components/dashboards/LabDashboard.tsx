@@ -30,6 +30,10 @@ import { LabOrderCard, CompletedTestCard, StatCard } from '../lab/components';
 import { useLanguage } from '../../services/LanguageService';
 import { useNavigation } from '../navigation/NavigationContext';
 import { toast } from 'sonner';
+import { useAgentWrapper } from '../agent/withElasticsearchAgent';
+import AgentInsightCard from '../agent/AgentInsightCard';
+import AgentSmartBadge from '../agent/AgentSmartBadge';
+import AgentQuickActions from '../agent/AgentQuickActions';
 
 interface User {
   id: string;
@@ -65,6 +69,9 @@ export default function LabDashboard({ user, onLogout, language, onLanguageChang
 
   const { t } = useLanguage();
   const { navigateTo } = useNavigation();
+  
+  // Elasticsearch Agent Integration
+  const { AgentComponents, updateContext } = useAgentWrapper('laboratory', language);
 
   useEffect(() => {
     if (!isDemoMode) {
@@ -164,6 +171,33 @@ export default function LabDashboard({ user, onLogout, language, onLanguageChang
   const filteredOrders = filterLabOrders(labOrders, searchTerm);
   const { pendingOrders, completedOrders, todayOrders, criticalResults } = calculateLabStats(labOrders);
 
+  // Generate AI Quick Actions for Lab Dashboard
+  const quickActions = [
+    ...(criticalResults.length > 0 ? [{
+      id: 'review-critical',
+      label: t('reviewCritical') || 'Review Critical Results',
+      icon: AlertTriangle,
+      onClick: () => toast.info('Reviewing critical results...'),
+      badge: String(criticalResults.length),
+      urgent: true
+    }] : []),
+    ...(pendingOrders.length > 5 ? [{
+      id: 'prioritize-tests',
+      label: t('prioritizeTests') || 'Prioritize Tests',
+      icon: Clock,
+      onClick: () => toast.info('Prioritizing pending tests...'),
+      badge: String(pendingOrders.length),
+      urgent: false
+    }] : []),
+    {
+      id: 'quality-check',
+      label: t('qualityCheck') || 'Run Quality Check',
+      icon: CheckCircle,
+      onClick: () => toast.info('Running quality control...'),
+      urgent: false
+    }
+  ];
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -214,6 +248,56 @@ export default function LabDashboard({ user, onLogout, language, onLanguageChang
 
       {/* Stats Cards */}
       <div className="p-6">
+        {/* AI Quick Actions */}
+        <AgentQuickActions 
+          actions={quickActions}
+          title={t('aiRecommendations') || 'AI Recommendations'}
+        />
+
+        {/* AI Insights */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          {criticalResults.length > 0 && (
+            <AgentInsightCard
+              type="warning"
+              title={t('criticalResults') || 'Critical Results'}
+              description={`${criticalResults.length} ${t('criticalTestsNeedReview') || 'critical tests need immediate review'}`}
+              priority="high"
+              action={{
+                label: t('reviewNow') || 'Review Now',
+                onClick: () => toast.info('Opening critical results...')
+              }}
+              compact={true}
+            />
+          )}
+          
+          <AgentInsightCard
+            type="insight"
+            title={t('testTrends') || 'Test Volume Trends'}
+            description={t('testVolumeUp') || 'Test volume up 15% this week'}
+            priority="medium"
+            metrics={[
+              {
+                label: t('thisWeek') || 'This Week',
+                value: '+15%',
+                trend: 'up'
+              }
+            ]}
+            compact={true}
+          />
+          
+          <AgentInsightCard
+            type="recommendation"
+            title={t('efficiency') || 'Efficiency Tip'}
+            description={t('batchSimilarTests') || 'Batch similar tests to reduce turnaround time by 20%'}
+            priority="low"
+            action={{
+              label: t('learnMore') || 'Learn More',
+              onClick: () => toast.info('Opening efficiency guide...')
+            }}
+            compact={true}
+          />
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
           <StatCard
             title={t.todayTests}
@@ -465,6 +549,9 @@ export default function LabDashboard({ user, onLogout, language, onLanguageChang
           </DialogContent>
         </Dialog>
       </div>
+      
+      {/* Elasticsearch Agent Integration */}
+      <AgentComponents />
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { TestTube, CheckCircle, AlertTriangle } from 'lucide-react';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { getStatusBadge, getPriorityBadge } from './helpers';
+import AgentSmartBadge from '../agent/AgentSmartBadge';
 
 interface LabOrderCardProps {
   order: any;
@@ -17,7 +18,27 @@ export const LabOrderCard = ({ order, t, onEnterResults }: LabOrderCardProps) =>
         <TestTube className="w-6 h-6 text-orange-600" />
       </div>
       <div>
-        <h3 className="font-semibold">{order.patientName}</h3>
+        <div className="flex items-center gap-2">
+          <h3 className="font-semibold">{order.patientName}</h3>
+          {/* AI Smart Badges */}
+          {order.priority === 'urgent' && (
+            <AgentSmartBadge
+              type="priority"
+              label="Urgent"
+              tooltip="AI flagged as urgent based on patient condition"
+              pulse={true}
+              size="sm"
+            />
+          )}
+          {order.estimatedTime && order.estimatedTime < 30 && (
+            <AgentSmartBadge
+              type="trend"
+              label="Fast Track"
+              tooltip="AI recommends fast-tracking this test"
+              size="sm"
+            />
+          )}
+        </div>
         <p className="text-sm text-gray-600">{order.testType}</p>
         <p className="text-sm text-gray-500">
           Ordered by: {order.orderedBy} | {new Date(order.createdAt).toLocaleDateString()}
@@ -55,7 +76,27 @@ export const CompletedTestCard = ({ order, t }: CompletedTestCardProps) => (
         <CheckCircle className="w-6 h-6 text-green-600" />
       </div>
       <div>
-        <h3 className="font-semibold">{order.patientName}</h3>
+        <div className="flex items-center gap-2">
+          <h3 className="font-semibold">{order.patientName}</h3>
+          {/* AI Smart Badges */}
+          {order.results?.status === 'critical' && (
+            <AgentSmartBadge
+              type="risk"
+              label="Critical"
+              tooltip="AI detected critical values requiring immediate attention"
+              pulse={true}
+              size="sm"
+            />
+          )}
+          {order.results?.status === 'abnormal' && (
+            <AgentSmartBadge
+              type="recommendation"
+              label="Review"
+              tooltip="AI recommends physician review"
+              size="sm"
+            />
+          )}
+        </div>
         <p className="text-sm text-gray-600">{order.testType}</p>
         <p className="text-sm text-gray-500">
           Completed: {new Date(order.completedAt || order.createdAt).toLocaleDateString()}

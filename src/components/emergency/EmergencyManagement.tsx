@@ -43,6 +43,14 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '../../services/LanguageService';
 import { useNavigation } from '../navigation/NavigationContext';
+import { useElasticsearchAgent } from '../../hooks/useElasticsearchAgent';
+import AgentFloatingButton from '../agent/AgentFloatingButton';
+import AgentAssistantPanel from '../agent/AgentAssistantPanel';
+import AgentInlineSuggestions from '../agent/AgentInlineSuggestions';
+import AgentInsightCard from '../agent/AgentInsightCard';
+import AgentSmartBadge from '../agent/AgentSmartBadge';
+import AgentQuickActions from '../agent/AgentQuickActions';
+import { elasticsearchAgentService } from '../../services/ElasticsearchAgentService';
 
 interface EmergencyCase {
   id: string;
@@ -137,6 +145,10 @@ const EmergencyManagement: React.FC = () => {
   const [triageDialog, setTriageDialog] = useState(false);
   const [protocolDialog, setProtocolDialog] = useState(false);
   const [selectedProtocol, setSelectedProtocol] = useState<EmergencyProtocol | null>(null);
+  
+  // Elasticsearch Agent Integration
+  const { isAgentOpen, agentContext, toggleAgent, updateContext } = useElasticsearchAgent('emergency');
+  const [agentSuggestions, setAgentSuggestions] = useState<any[]>([]);
 
   // Enhanced mock data with more realistic emergency scenarios
   useEffect(() => {
@@ -610,8 +622,49 @@ const EmergencyManagement: React.FC = () => {
     );
   };
 
-  const renderTriageBoard = () => (
+  const renderTriageBoard = () => {
+    // Generate AI Quick Actions based on current emergency state
+    const quickActions = [
+      ...(emergencyCases.filter(c => c.priority === 1 && c.status === 'waiting').length > 0 ? [{
+        id: 'assign-critical',
+        label: language === 'ar' ? 'تعيين حالات حرجة' : 'Assign Critical Cases',
+        icon: AlertCircle,
+        onClick: () => toast.info('Assigning critical cases...'),
+        badge: String(emergencyCases.filter(c => c.priority === 1 && c.status === 'waiting').length),
+        urgent: true
+      }] : []),
+      ...(emergencyCases.filter(c => c.estimatedWaitTime && c.estimatedWaitTime > 60).length > 0 ? [{
+        id: 'long-wait',
+        label: language === 'ar' ? 'مراجعة الانتظار الطويل' : 'Review Long Waits',
+        icon: Clock,
+        onClick: () => toast.info('Reviewing long wait times...'),
+        badge: String(emergencyCases.filter(c => c.estimatedWaitTime && c.estimatedWaitTime > 60).length),
+        urgent: false
+      }] : []),
+      {
+        id: 'optimize-rooms',
+        label: language === 'ar' ? 'تحسين توزيع الغرف' : 'Optimize Room Distribution',
+        icon: Bed,
+        onClick: () => toast.info('Optimizing room assignments...'),
+        urgent: false
+      },
+      {
+        id: 'predict-surge',
+        label: language === 'ar' ? 'توقع الزيادة' : 'Predict Patient Surge',
+        icon: TrendingUp,
+        onClick: () => toast.info('Analyzing surge patterns...'),
+        urgent: false
+      }
+    ];
+
+    return (
     <div className="space-y-6">
+      {/* AI Quick Actions Bar */}
+      <AgentQuickActions 
+        actions={quickActions}
+        title={language === 'ar' ? 'توصيات الذكاء الاصطناعي' : 'AI Recommendations'}
+      />
+
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold">
           {language === 'ar' ? 'لوحة الفرز' : 'Triage Board'}
@@ -648,6 +701,73 @@ const EmergencyManagement: React.FC = () => {
             {language === 'ar' ? 'تنبيه عام' : 'General Alert'}
           </Button>
         </div>
+      </div>
+
+      {/* AI Insights Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+        {emergencyCases.filter(c => c.priority === 1).length > 0 && (
+          <AgentInsightCard
+            type="warning"
+            title={language === 'ar' ? 'حالات حرجة تحتاج اهتمام' : 'Critical Cases Need Attention'}
+            description={language === 'ar' 
+              ? `${emergencyCases.filter(c => c.priority === 1).length} حالة حرجة تتطلب تدخل فوري`
+              : `${emergencyCases.filter(c => c.priority === 1).length} critical cases require immediate intervention`
+            }
+            priority="high"
+            action={{
+              label: language === 'ar' ? 'عرض الحالات' : 'View Cases',
+              onClick: () => setActiveTab('triage')
+            }}
+            metrics={[
+              {
+                label: language === 'ar' ? 'متوسط الانتظار' : 'Avg Wait',
+                value: '8 min',
+                trend: 'down'
+              },
+              {
+                label: language === 'ar' ? 'الأولوية' : 'Priority',
+                value: 'P1',
+                trend: 'up'
+              }
+            ]}
+          />
+        )}
+        
+        <AgentInsightCard
+          type="insight"
+          title={language === 'ar' ? 'توقع الزيادة' : 'Surge Prediction'}
+          description={language === 'ar'
+            ? 'متوقع زيادة 30% في الحالات خلال الساعتين القادمتين'
+            : 'Predicted 30% increase in cases over next 2 hours'
+          }
+          priority="medium"
+          action={{
+            label: language === 'ar' ? 'الاستعداد' : 'Prepare',
+            onClick: () => toast.info('Preparing for surge...')
+          }}
+          metrics={[
+            {
+              label: language === 'ar' ? 'الزيادة المتوقعة' : 'Expected Surge',
+              value: '+30%',
+              trend: 'up'
+            }
+          ]}
+        />
+        
+        <AgentInsightCard
+          type="recommendation"
+          title={language === 'ar' ? 'تحسين الكفاءة' : 'Efficiency Optimization'}
+          description={language === 'ar'
+            ? 'يمكن تقليل وقت الانتظار بنسبة 15% بإعادة توزيع الموارد'
+            : 'Can reduce wait time by 15% with resource reallocation'
+          }
+          priority="medium"
+          action={{
+            label: language === 'ar' ? 'تطبيق' : 'Apply',
+            onClick: () => toast.success('Optimizing resources...')
+          }}
+          compact={false}
+        />
       </div>
 
       {/* Enhanced Priority Overview */}
@@ -740,6 +860,16 @@ const EmergencyManagement: React.FC = () => {
 
       {/* Real-time Alerts */}
       <div className="space-y-2">
+        {/* Agent Inline Suggestions */}
+        {agentSuggestions.length > 0 && (
+          <AgentInlineSuggestions
+            suggestions={agentSuggestions}
+            onSuggestionClick={handleAgentSuggestionClick}
+            title={language === 'ar' ? 'اقتراحات الذكاء الاصطناعي' : 'AI Suggestions'}
+            maxVisible={2}
+          />
+        )}
+        
         {emergencyCases.filter(c => c.priority === 1 && c.status !== 'completed').length > 0 && (
           <Alert className="border-red-200 bg-red-50 dark:bg-red-900/20">
             <Siren className="w-4 h-4 text-red-600" />
@@ -784,6 +914,33 @@ const EmergencyManagement: React.FC = () => {
                     {getSeverityIcon(case_.severity)}
                     <span>{case_.severity.toUpperCase()}</span>
                   </Badge>
+                  
+                  {/* AI Smart Badges */}
+                  {case_.priority === 1 && (
+                    <AgentSmartBadge
+                      type="priority"
+                      label={language === 'ar' ? 'أولوية قصوى' : 'Highest Priority'}
+                      tooltip={language === 'ar' ? 'تحليل الذكاء الاصطناعي: يتطلب تدخل فوري' : 'AI Analysis: Requires immediate intervention'}
+                      pulse={true}
+                      size="sm"
+                    />
+                  )}
+                  {case_.vitals && case_.vitals.heartRate > 100 && (
+                    <AgentSmartBadge
+                      type="risk"
+                      label={language === 'ar' ? 'خطر قلبي' : 'Cardiac Risk'}
+                      tooltip={language === 'ar' ? 'معدل نبض مرتفع - مراقبة مستمرة' : 'Elevated heart rate - continuous monitoring'}
+                      size="sm"
+                    />
+                  )}
+                  {case_.estimatedWaitTime && case_.estimatedWaitTime > 60 && (
+                    <AgentSmartBadge
+                      type="trend"
+                      label={language === 'ar' ? 'انتظار طويل' : 'Long Wait'}
+                      tooltip={language === 'ar' ? 'وقت انتظار أطول من المتوقع' : 'Wait time exceeds expected'}
+                      size="sm"
+                    />
+                  )}
                   
                   <div className="flex-1">
                     <div className="flex items-center space-x-2">
@@ -932,7 +1089,8 @@ const EmergencyManagement: React.FC = () => {
         ))}
       </div>
     </div>
-  );
+    );
+  };
 
   const renderEmergencyRooms = () => (
     <div className="space-y-6">
@@ -1143,44 +1301,86 @@ const EmergencyManagement: React.FC = () => {
     </div>
   );
 
+  // Load agent suggestions when component mounts or context changes
+  useEffect(() => {
+    const loadAgentSuggestions = async () => {
+      const suggestions = await elasticsearchAgentService.getContextualSuggestions(agentContext);
+      setAgentSuggestions(suggestions);
+    };
+    loadAgentSuggestions();
+  }, [agentContext]);
+
+  // Update agent context when selected case changes
+  useEffect(() => {
+    if (selectedCase) {
+      updateContext({
+        patientId: selectedCase.id,
+        patientData: selectedCase,
+        urgency: selectedCase.severity
+      });
+    }
+  }, [selectedCase]);
+
+  const handleAgentSuggestionClick = async (suggestion: any) => {
+    await suggestion.action();
+    toggleAgent();
+  };
+
   if (!navigation.currentView || navigation.currentView === 'triage') {
     return (
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="triage" className="flex items-center space-x-2">
-            <AlertTriangle className="w-4 h-4" />
-            <span>{language === 'ar' ? 'الفرز' : 'Triage'}</span>
-          </TabsTrigger>
-          <TabsTrigger value="rooms" className="flex items-center space-x-2">
-            <Bed className="w-4 h-4" />
-            <span>{language === 'ar' ? 'الغرف' : 'Rooms'}</span>
-          </TabsTrigger>
-          <TabsTrigger value="protocols" className="flex items-center space-x-2">
-            <FileText className="w-4 h-4" />
-            <span>{language === 'ar' ? 'البروتوكولات' : 'Protocols'}</span>
-          </TabsTrigger>
-          <TabsTrigger value="statistics" className="flex items-center space-x-2">
-            <BarChart3 className="w-4 h-4" />
-            <span>{language === 'ar' ? 'الإحصائيات' : 'Statistics'}</span>
-          </TabsTrigger>
-        </TabsList>
+      <>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="triage" className="flex items-center space-x-2">
+              <AlertTriangle className="w-4 h-4" />
+              <span>{language === 'ar' ? 'الفرز' : 'Triage'}</span>
+            </TabsTrigger>
+            <TabsTrigger value="rooms" className="flex items-center space-x-2">
+              <Bed className="w-4 h-4" />
+              <span>{language === 'ar' ? 'الغرف' : 'Rooms'}</span>
+            </TabsTrigger>
+            <TabsTrigger value="protocols" className="flex items-center space-x-2">
+              <FileText className="w-4 h-4" />
+              <span>{language === 'ar' ? 'البروتوكولات' : 'Protocols'}</span>
+            </TabsTrigger>
+            <TabsTrigger value="statistics" className="flex items-center space-x-2">
+              <BarChart3 className="w-4 h-4" />
+              <span>{language === 'ar' ? 'الإحصائيات' : 'Statistics'}</span>
+            </TabsTrigger>
+          </TabsList>
 
-        <TabsContent value="triage" className="mt-6">
-          {renderTriageBoard()}
-        </TabsContent>
+          <TabsContent value="triage" className="mt-6">
+            {renderTriageBoard()}
+          </TabsContent>
 
-        <TabsContent value="rooms" className="mt-6">
-          {renderEmergencyRooms()}
-        </TabsContent>
+          <TabsContent value="rooms" className="mt-6">
+            {renderEmergencyRooms()}
+          </TabsContent>
 
-        <TabsContent value="protocols" className="mt-6">
-          {renderProtocols()}
-        </TabsContent>
+          <TabsContent value="protocols" className="mt-6">
+            {renderProtocols()}
+          </TabsContent>
 
-        <TabsContent value="statistics" className="mt-6">
-          {renderStatistics()}
-        </TabsContent>
-      </Tabs>
+          <TabsContent value="statistics" className="mt-6">
+            {renderStatistics()}
+          </TabsContent>
+        </Tabs>
+
+        {/* Elasticsearch Agent Integration */}
+        <AgentFloatingButton 
+          onClick={toggleAgent}
+          isOpen={isAgentOpen}
+          hasNotifications={emergencyCases.filter(c => c.priority === 1).length > 0}
+          notificationCount={emergencyCases.filter(c => c.priority === 1).length}
+        />
+        
+        <AgentAssistantPanel
+          context={agentContext}
+          isOpen={isAgentOpen}
+          onClose={toggleAgent}
+          language={language}
+        />
+      </>
     );
   }
 
